@@ -131,6 +131,9 @@ void Manager::play() {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
         }
+        if( keystate[SDLK_F1] ) {
+        	hud.change_display();
+        }
         if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;
           makeVideo = true;
