@@ -5,6 +5,7 @@
 #include <SDL_image.h>
 #include <string>
 #include <sstream>
+#include "hud.h"
 using std::string;
 #include "gamedata.h"
 

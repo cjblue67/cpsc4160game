@@ -32,6 +32,7 @@ private:
   const std::string username;
   const std::string title;
   const int frameMax;
+  Hud hud;
 
   void draw() const;
   void update();
