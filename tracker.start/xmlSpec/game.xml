@@ -2,13 +2,13 @@
 <GameData>
 <!-- screenTitle is also used to identify you and your animation. 
      So make sure to include your name as part of the screenTitle -->
-<screenTitle>Christopher West's Star Wars Animation</screenTitle>
-<maxStringSize>50</maxStringSize>
+<screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
+<maxStringSize>80</maxStringSize>
 
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
 
-<frameMax>200</frameMax>
+<frameMax>400</frameMax>
 <username>cjwest</username>
 <framesFPS>200</framesFPS>
 

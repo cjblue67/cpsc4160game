@@ -56,7 +56,7 @@ void Manager::draw() const {
   }
   
   if(hud.get_display()) {
-  	hud.draw(clock.getSeconds(), clock.fps(frameTimes,Gamedata::getInstance().getXmlInt("framesFPS")));
+  	hud.draw(clock.getSeconds(), clock.getAverageFPS());
   }
   io.printMessageAt(title, 10, 450);
   viewport.draw();

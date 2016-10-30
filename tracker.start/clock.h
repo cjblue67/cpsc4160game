@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <string>
-#include <queue>
+#include <deque>
 
 class Manager;
 
@@ -12,7 +12,9 @@ public:
 
 private:
   friend class Manager;
-
+  static Clock& instance;
+  
+  
   bool started;
   bool paused;
   bool sloMo;
@@ -21,6 +23,9 @@ private:
 
   unsigned int frames;
 
+  std::deque<int> recFrame;
+  const unsigned int maxFrames;
+
   unsigned int tickSum;
   unsigned int sumOfAllTicks;
   unsigned int timeAtStart;
@@ -28,7 +33,7 @@ private:
   unsigned int currTicks;
   unsigned int prevTicks;
   unsigned int ticks;
-
+  
   unsigned int getElapsedTicks();
   Clock& operator++();
   void toggleSloMo();
@@ -37,8 +42,9 @@ private:
   bool isPaused() const  { return paused;  }
   unsigned int getFrames() const  { return frames;  }
   unsigned int getSeconds() const { return getTicks()/1000;  }
-  unsigned int fps(std::queue<unsigned int> frameTime, int frames);
   unsigned int capFrameRate() const;
+  int getAverageFPS() const;
+  int getFPS() const;
 
   void start();
   void pause();
