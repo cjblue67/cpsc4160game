@@ -33,7 +33,8 @@ Manager::Manager() :
   frameCount( 0 ),
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
-  frameMax( Gamedata::getInstance().getXmlInt("frameMax") )
+  frameMax( Gamedata::getInstance().getXmlInt("frameMax") ),
+  hud(screen)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
@@ -53,10 +54,10 @@ void Manager::draw() const {
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
-
-  io.printMessageValueAt("Seconds: ", clock.getSeconds(), 10, 20);
-  io.printMessageAt("Press T to switch sprites", 10, 45);
-  io.printMessageValueAt("FPS: ", clock.fps(frameTimes, Gamedata::getInstance().getXmlInt("framesFPS")), 10, 70);
+  
+  if(hud.get_display()) {
+  	hud.draw(clock.getSeconds(), clock.getAverageFPS());
+  }
   io.printMessageAt(title, 10, 450);
   viewport.draw();
 
@@ -86,6 +87,9 @@ void Manager::update() {
   if ( clock.getSeconds() - lastSeconds == 5 ) {
     lastSeconds = clock.getSeconds();
     //switchSprite();
+  }
+  if(clock.getSeconds() == 2) {
+  	hud.set_false();
   }
 
   for (unsigned int i = 0; i < sprites.size(); ++i) {
@@ -132,6 +136,9 @@ void Manager::play() {
         if ( keystate[SDLK_p] ) {
           if ( clock.isPaused() ) clock.unpause();
           else clock.pause();
+        }
+        if( keystate[SDLK_F1] ) {
+        	hud.change_display();
         }
         if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;

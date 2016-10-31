@@ -7,11 +7,8 @@
 #include "ioManager.h"
 
 Clock& Clock::getInstance() {
-  if ( SDL_WasInit(SDL_INIT_VIDEO) == 0) {
-    throw std::string("Must init SDL before Clock");
-  }
-  static Clock clock; 
-  return clock;
+  static Clock instance;
+  return instance;
 }
 
 Clock::Clock() :
@@ -21,10 +18,12 @@ Clock::Clock() :
   framesAreCapped(Gamedata::getInstance().getXmlBool("framesAreCapped")), 
   frameCap(Gamedata::getInstance().getXmlInt("frameCap")), 
   frames(0), 
+  recFrame(),
+  maxFrames(Gamedata::getInstance().getXmlInt("frameMax")), 
   tickSum(0),
   sumOfAllTicks(0),
   timeAtStart(0), timeAtPause(0),
-  currTicks(0), prevTicks(0), ticks(0) 
+  currTicks(0), prevTicks(0), ticks(0)
   {
   start();
 }
@@ -36,6 +35,8 @@ Clock::Clock(const Clock& c) :
   framesAreCapped(c.framesAreCapped), 
   frameCap(c.frameCap), 
   frames(c.frames),
+  recFrame(c.recFrame),
+  maxFrames(c.maxFrames), 
   tickSum(c.tickSum),
   sumOfAllTicks(c.sumOfAllTicks),
   timeAtStart(c.timeAtStart), timeAtPause(c.timeAtPause),
@@ -90,11 +91,6 @@ unsigned int Clock::getElapsedTicks() {
   return ticks;
 }
 
-unsigned int Clock::fps(std::queue<unsigned int> frameTime, int frames) {
-  if (paused || frameTime.size() != (unsigned)frames) return 0;
-  return (frameTime.back()-frameTime.front())/frames;
-   
-}
 unsigned int Clock::capFrameRate() const { 
   if ( !framesAreCapped ) return 0u;
   unsigned int delay = std::max(0.0,1000.0/frameCap+0.5 - ticks);
@@ -106,6 +102,12 @@ Clock& Clock::operator++() {
   if ( !paused ) {
     ++frames; 
   }
+  if(recFrame.size() >= maxFrames) {
+    tickSum -= recFrame.front();
+    recFrame.pop_front();
+  }
+  recFrame.push_back(ticks);
+  tickSum += ticks;
   return *this;
 }
 
@@ -128,3 +130,17 @@ void Clock::unpause() {
   }
 }
 
+int Clock::getFPS() const {
+  if(getSeconds() > 0) return frames/getSeconds();
+  return 0;
+}
+
+int Clock::getAverageFPS() const {
+  if(getSeconds() > 0) {
+    return recFrame.size()/(tickSum/1000.0);
+  }
+  if(getTicks() > 3000 && getFrames() == 0) {
+    throw std::string("MUST INCREMENT FRAMES!");
+  }
+  return 0;
+}

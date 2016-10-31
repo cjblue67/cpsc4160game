@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include "ioManager.h"
+#include "hud.h"
 using std::string;
 
 IOManager& IOManager::getInstance() {
@@ -17,7 +18,7 @@ IOManager::IOManager( ) :
     screen(SDL_SetVideoMode(viewWidth, viewHeight, 32, SDL_DOUBLEBUF)),
     font( NULL ), 
     color(),
-    inputString("")  
+    inputString("")
 {
   if (screen == NULL) { 
     throw string("Unable to set video mode; screen is NULL in IOMAnager"); 
