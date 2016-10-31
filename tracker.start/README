@@ -1,13 +1,14 @@
-Name: Christopher West
-Clemson Email Address: cjwest@g.clemson.edu
+Name: Christopher West and Cecilia Prentice
+Clemson Email Address: cjwest@g.clemson.edu/cprenti@g.clemson.edu
 Course number: 4160
 
-Project no: 3
-Project due date: 10/7/2016
+Project no: 4
+Project due date: 10/28/2016
 
-Project description: Create a creative SDL_Surface which utilizes code provided by the professor and various sprites
+Project description: Create a hud and a player class on existing project
 
-Extra Contribution: Added star wars theme to the project
+Extra Contribution: Added star wars theme to project
 
-Problems with this project: Had difficulty creating two way multi frame sprite, got it working though, but did not implement on all I should have
+Problems with this project: key up to stop player object after it started moving not working
 
+Our project is going to be a side scrolling shooter with a star wars theme. The player pilots an x-wing and has to shoot down tie fighters on the way to the core of the death star. High reaching aspirations for this project would be to have sprite change animation for differing speds exclusively, as well as have when you shoot a tie fighter for it to be replaced by a wreckage sprites that falls off

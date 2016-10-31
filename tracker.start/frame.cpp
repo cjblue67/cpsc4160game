@@ -18,6 +18,12 @@ Frame::Frame( const Frame& frame ) :
   height(surface->h)
 { }
 
+Frame::Frame( SDL_Surface* spr, Uint16 sprite_width, Uint16 sprite_height) :
+  screen(IOManager::getInstance().getScreen()),
+  surface(spr), 
+  width(sprite_width), height(sprite_height) {
+}
+
 
 Frame& Frame::operator=(const Frame& rhs) {
   surface = rhs.surface;

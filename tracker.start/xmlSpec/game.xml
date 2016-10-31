@@ -4,6 +4,7 @@
      So make sure to include your name as part of the screenTitle -->
 <screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
 <maxStringSize>80</maxStringSize>
+<numberOfShips>3</numberOfShips>
 
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
@@ -63,14 +64,19 @@
   <startLoc x="120" y="140"/>
   <frames>8</frames>
   <frameInterval>20</frameInterval>
-  <speedX>200</speedX>
-  <speedY>200</speedY>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
   <transparency>true</transparency>
 </xwing>
 
 <tiefighter>
   <file>images/tiefighter.png</file>
-  <startLoc x="320" y="240"/>
+  <cushion>50</cushion>
+  <scale min= "0.5" max= "1.5"/>
+  <src x="0" y="0"/>
+  <width>32</width>
+  <height>32</height>
+  <startLoc x = "320" y = "200" />
   <speedX>-175</speedX>
   <speedY>-175</speedY>
   <transparency>true</transparency>

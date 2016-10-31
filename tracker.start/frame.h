@@ -13,13 +13,14 @@ public:
   // we are not going to keep each chunk on a separate surface:
   Frame(const Frame&);
   Frame& operator=(const Frame&);
+  Frame( SDL_Surface* spr, Uint16 sprite_width, Uint16 sprite_height);
 
   SDL_Surface* getSurface() const { return surface; }
   void draw(Sint16 x, Sint16 y) const;
+  void draw(Sint16 sx, Sint16 sy, Sint16 dx, Sint16 dy) const;
 
   // Chunk::draw needs the next function if the chunk is not
-  // on a separate surface:
-  void draw(Sint16 sx, Sint16 sy, Sint16 dx, Sint16 dy) const;
+  // on a separate surface: 
   void draw(Sint16 x, Sint16 y, double angle) const;
 
   Uint16 getWidth()  const { return surface->w; }
@@ -29,6 +30,7 @@ private:
   SDL_Surface * surface;
   Uint16 width;
   Uint16 height;
+
   Frame();
 };
 

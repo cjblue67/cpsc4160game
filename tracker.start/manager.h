@@ -5,6 +5,7 @@
 #include "clock.h"
 #include "world.h"
 #include "viewport.h"
+#include "player.h"
 
 class Manager {
 public:
@@ -17,6 +18,7 @@ private:
   const bool env;
   const IOManager& io;
   Clock& clock;
+  Player& player;
 
   SDL_Surface * const screen;
   World stars;
@@ -32,7 +34,7 @@ private:
   const std::string username;
   const std::string title;
   const int frameMax;
-  Hud hud;
+//  Hud hud;
 
   void draw() const;
   void update();
