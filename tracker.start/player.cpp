@@ -38,3 +38,4 @@ void Player::stopYVelocity()
 {
   playerSprite->velocityY(0);
 }
+

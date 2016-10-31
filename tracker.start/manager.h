@@ -6,6 +6,7 @@
 #include "world.h"
 #include "viewport.h"
 #include "player.h"
+#include "hud.h"
 
 class Manager {
 public:
@@ -34,7 +35,7 @@ private:
   const std::string username;
   const std::string title;
   const int frameMax;
-//  Hud hud;
+  Hud hud;
 
   void draw() const;
   void update();

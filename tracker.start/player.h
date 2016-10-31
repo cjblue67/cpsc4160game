@@ -20,6 +20,7 @@ public:
   
 private:
   Player();
+  
   Player(const Player&);
   Player& operator=(const Player&);
   Drawable* playerSprite;
