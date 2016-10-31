@@ -117,11 +117,17 @@ void Manager::play() {
           done = true;
           break;
         }
-        if ( keystate[SDLK_t] ) {
-          switchSprite();
-        }
         if ( keystate[SDLK_s] ) {
-          clock.toggleSloMo();
+          player.moveDown();
+        }
+        if ( keystate[SDLK_d] ) {
+          player.moveRight();
+        }
+        if ( keystate[SDLK_w] ) {
+          player.moveUp();
+        }
+        if ( keystate[SDLK_a] ) {
+          player.moveLeft();
         }
         if ( keystate[SDLK_p] ) {
           if ( clock.isPaused() ) clock.unpause();
