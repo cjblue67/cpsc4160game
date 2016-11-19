@@ -16,7 +16,7 @@ Hud(const Hud&);
 
 Hud& operator=(const Hud&);
 public:
-Hud(SDL_Surface* s):screen(s), display(true), x1(5), x2(270), y1(5),y2(330){};
+Hud(SDL_Surface* s):screen(s), display(true), x1(5), x2(275), y1(5),y2(330){};
 void draw(int seconds, int FPS, int lives, int enemies) const;
 bool get_display() const {return display;};
 void change_display() {display = display ^ 1;};

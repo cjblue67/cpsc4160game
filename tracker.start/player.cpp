@@ -46,3 +46,4 @@ int Player:: getLives() const{
 void Player:: setLives(int l) {
   lives = l;
 }
+
