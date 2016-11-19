@@ -46,8 +46,10 @@ Manager::Manager() :
   username(  Gamedata::getInstance().getXmlStr("username") ),
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ) ,
-  hud(screen)
+  hud(screen),
+  enemiesDestroyed(0)
 {
+  player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
@@ -79,7 +81,7 @@ void Manager::draw() const {
   }
   
   if(hud.get_display()) {
-  	hud.draw(clock.getSeconds(), clock.getAverageFPS());
+  	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), 0);
   }
   
   io.printMessageAt(title, 10, 450);
@@ -132,6 +134,11 @@ void Manager::update() {
   frameTimes.push(clock.getTicks());
 }
 
+void Manager::reset() {
+  enemiesDestroyed = 0;
+  player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
+}
+
 void Manager::play() {
   SDL_Event event;
   bool done = false;
@@ -163,6 +170,9 @@ void Manager::play() {
         }
         if( keystate[SDLK_F1] ) {
         	hud.change_display();
+        }
+        if ( keystate[SDLK_r] ) {
+          reset();
         }
         if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;

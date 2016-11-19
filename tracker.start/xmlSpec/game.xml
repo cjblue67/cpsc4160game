@@ -10,7 +10,7 @@
 <framesAreCapped>true</framesAreCapped>
 
 <frameMax>400</frameMax>
-<username>cjwest</username>
+<username>cprenti</username>
 <framesFPS>200</framesFPS>
 
 <view>
@@ -22,6 +22,8 @@
   <width>2000</width>
   <height>960</height>
 </world>
+
+<playerLives>3</playerLives>
 
 <stars>
   <file>images/stars.bmp</file>

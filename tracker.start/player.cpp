@@ -7,7 +7,7 @@ Player& Player::getInstance()
    return player;
 }
 
-Player::Player(): playerSprite(new TwoWayMultiSprite("xwing")) {} 
+Player::Player(): lives(0), playerSprite(new TwoWayMultiSprite("xwing")) {} 
 
 void Player::moveRight()
 {
@@ -39,3 +39,10 @@ void Player::stopYVelocity()
   playerSprite->velocityY(0);
 }
 
+int Player:: getLives() const{
+  return lives;
+}
+
+void Player:: setLives(int l) {
+  lives = l;
+}

@@ -17,10 +17,12 @@ public:
   void stopYVelocity();
   ~Player() { }
   Drawable* getPlaySprite() const { return playerSprite; } 
+  int getLives() const;
+  void setLives(int l);
   
 private:
   Player();
-  
+  int lives;
   Player(const Player&);
   Player& operator=(const Player&);
   Drawable* playerSprite;

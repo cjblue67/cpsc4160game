@@ -1,0 +1,95 @@
+<?xml version = "1.0"?>
+<GameData>
+<!-- screenTitle is also used to identify you and your animation. 
+     So make sure to include your name as part of the screenTitle -->
+<screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
+<maxStringSize>80</maxStringSize>
+<numberOfShips>3</numberOfShips>
+
+<frameCap>60</frameCap>
+<framesAreCapped>true</framesAreCapped>
+
+<frameMax>400</frameMax>
+<username>cjwest</username>
+<framesFPS>200</framesFPS>
+
+<view>
+  <width>854</width>
+  <height>480</height>
+</view>
+
+<world>
+  <width>2000</width>
+  <height>960</height>
+</world>
+
+<stars>
+  <file>images/stars.bmp</file>
+  <red>193</red>
+  <green>205</green>
+  <blue>205</blue>
+  <factor>1/4</factor>
+  <transparency>false</transparency>
+</stars>
+
+<planets>
+  <file>images/planet.bmp</file>
+  <red>193</red>
+  <green>205</green>
+  <blue>205</blue>
+  <factor>1/2</factor>
+  <transparency>true</transparency>
+</planets>
+
+<deathStar>
+  <file>images/deathstar.bmp</file>
+  <red>193</red>
+  <green>205</green>
+  <blue>205</blue>
+  <factor>1</factor>
+  <transparency>true</transparency>
+</deathStar>
+
+<font name="font">
+  <file>font/dyslexic-bold.otf</file>
+  <size>16</size>
+  <red>255</red>
+  <green>255</green>
+  <blue>255</blue>
+  <unused>0</unused>
+</font>
+
+<xwing>
+  <file>images/xwing.bmp</file>
+  <startLoc x="120" y="140"/>
+  <frames>8</frames>
+  <frameInterval>20</frameInterval>
+  <speedX>0</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</xwing>
+
+<tiefighter>
+  <file>images/tiefighter.png</file>
+  <cushion>50</cushion>
+  <scale min= "0.5" max= "1.5"/>
+  <src x="0" y="0"/>
+  <width>32</width>
+  <height>32</height>
+  <startLoc x = "320" y = "200" />
+  <speedX>-175</speedX>
+  <speedY>-175</speedY>
+  <transparency>true</transparency>
+</tiefighter>
+
+<wreckage>
+  <file>images/wreckage.png</file>
+  <startLoc x="100" y="40"/>
+  <frames>4</frames>
+  <frameInterval>18</frameInterval>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+</wreckage>
+
+</GameData>
