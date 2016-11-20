@@ -94,4 +94,11 @@
   <transparency>true</transparency>
 </wreckage>
 
+<laser>
+  <file>images/greenLasers.png</file>
+  <frames>1</frames>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+</laser>
 </GameData>

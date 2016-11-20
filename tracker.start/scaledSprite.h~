@@ -26,7 +26,6 @@ public:
   Vector2f getCenter() const { 
     return Vector2f( X()+frame->getWidth()/2, Y()+frame->getHeight()/2 );
   }
-  int getLives() const {return lives;}
 
 private:
   double scale;
@@ -36,5 +35,6 @@ private:
   int frameHeight;
   int worldWidth;
   int worldHeight;
+  virtual bool updateRemovable(Uint32 ticks);
 };
 #endif

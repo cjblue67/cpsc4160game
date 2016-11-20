@@ -23,6 +23,8 @@
   <height>960</height>
 </world>
 
+<playerLives>3</playerLives>
+
 <stars>
   <file>images/stars.bmp</file>
   <red>193</red>
@@ -92,4 +94,11 @@
   <transparency>true</transparency>
 </wreckage>
 
+<laser>
+  <file> </file>
+  <frames>1</frames>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <transparency>true</transparency>
+</laser>
 </GameData>

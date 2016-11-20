@@ -74,6 +74,26 @@ void Sprite::update(Uint32 ticks) {
   }  
 }
 
+bool Sprite::updateRemovable(Uint32 ticks) { 
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  setPosition(getPosition() + incr);
+
+  if ( Y() < 0) {
+    return true;
+  }
+  if ( Y() > worldHeight-frameHeight) {
+    return true;
+  }
+
+  if ( X() < 0) {
+    return true;
+  }
+  if ( X() > worldWidth-frameWidth) {
+    return true;
+  }  
+  return false;
+}
+
 Sprite& Sprite::operator=(const Sprite& rhs)
 {
   Drawable::operator=(rhs);

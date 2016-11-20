@@ -7,6 +7,7 @@
 #include "viewport.h"
 #include "player.h"
 #include "hud.h"
+#include "sprite.h"
 
 class Manager {
 public:
@@ -28,6 +29,7 @@ private:
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
+  std::vector<Sprite*> bullets;
   int currentSprite;
 
   bool makeVideo;
@@ -36,6 +38,7 @@ private:
   const std::string title;
   const int frameMax;
   Hud hud;
+  
 
   void draw() const;
   void update();

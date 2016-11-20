@@ -39,6 +39,7 @@ Manager::Manager() :
   deathStar("deathStar", Gamedata::getInstance().getXmlInt("deathStar/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
+  bullets(),
   currentSprite(0),
 
   makeVideo( false ),
@@ -69,6 +70,7 @@ Manager::Manager() :
   {
     sprites.push_back(ties[i]);
   }
+  bullets.reserve(10);
   viewport.setObjectToTrack(sprites[currentSprite]);
 }
 
@@ -78,6 +80,9 @@ void Manager::draw() const {
   deathStar.draw();
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
+  }
+  for (unsigned i = 0; i < bullets.size(); ++i) {
+    bullets[i]->draw();
   }
   
   if(hud.get_display()) {
@@ -120,6 +125,13 @@ void Manager::update() {
   
   for (unsigned int i = 0; i < sprites.size(); ++i) {
     sprites[i]->update(ticks);
+  }
+  for (unsigned int i = 0; i < bullets.size(); ++i) {
+    bool deleteBullet = bullets[i]->updateRemovable(ticks);
+    if(deleteBullet) {
+      delete bullets[i];
+      bullets.erase(bullets.begin() + i);
+    }
   }
   if ( makeVideo && frameCount < frameMax ) {
     makeFrame();
@@ -173,6 +185,18 @@ void Manager::play() {
         }
         if ( keystate[SDLK_r] ) {
           reset();
+        }
+        if( keystate[SDLK_SPACE] ) {
+          // only allow 10 bullets out at once
+          // if the ship is going right
+          if(bullets.size() < 10) { 
+            if(player.getPlaySprite()->velocityX() >= 0) {
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(200.0,0.0) ) );
+            }
+            else {
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(-200.0,0.0) ) );
+            }
+          }
         }
         if (keystate[SDLK_F4] && !makeVideo) {
           std::cout << "Making video frames" << std::endl;

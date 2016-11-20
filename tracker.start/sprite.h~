@@ -16,10 +16,9 @@ public:
   virtual void draw() const;
 
   virtual void update(Uint32 ticks);
+  virtual void updateRemovable(Uint32 ticks);
   Sprite& operator=(const Sprite& rhs);
-  int getXVel() const;
-  int getYVel() const;
-
+  
 private:
   const Frame * frame;
   int frameWidth;

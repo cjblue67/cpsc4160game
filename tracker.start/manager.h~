@@ -28,6 +28,7 @@ private:
   Viewport& viewport;
 
   std::vector<Drawable*> sprites;
+  std::vector<Sprite*> bullets;
   int currentSprite;
 
   bool makeVideo;
@@ -36,6 +37,7 @@ private:
   const std::string title;
   const int frameMax;
   Hud hud;
+  
 
   void draw() const;
   void update();
@@ -44,4 +46,5 @@ private:
   Manager& operator=(const Manager&);
   void makeFrame();
   int enemiesDestroyed;
+  void reset();
 };

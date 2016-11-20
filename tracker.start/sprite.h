@@ -16,8 +16,9 @@ public:
   virtual void draw() const;
 
   virtual void update(Uint32 ticks);
+  virtual bool updateRemovable(Uint32 ticks);
   Sprite& operator=(const Sprite& rhs);
-
+  
 private:
   const Frame * frame;
   int frameWidth;
