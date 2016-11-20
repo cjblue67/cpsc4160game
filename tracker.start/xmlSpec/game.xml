@@ -68,6 +68,7 @@
   <frameInterval>20</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
+  <frames>2</frames>
   <transparency>true</transparency>
 </xwing>
 
@@ -81,6 +82,8 @@
   <startLoc x = "320" y = "200" />
   <speedX>-175</speedX>
   <speedY>-175</speedY>
+  <frames>2</frames>
+  <frameInterval>20</frameInterval>
   <transparency>true</transparency>
 </tiefighter>
 

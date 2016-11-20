@@ -9,6 +9,7 @@
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
+#include "twoWayScaledSprite.h"
 
 static std::queue<unsigned int> frameTimes;
 
@@ -60,10 +61,10 @@ Manager::Manager() :
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
   sprites.push_back( new MultiSprite("wreckage") );
-  std::vector<ScaledSprite*> ties; 
+  std::vector<TwoWayScaledSprite*> ties; 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
-    ties.push_back(new ScaledSprite("tiefighter", tieSurface) );
+    ties.push_back(new TwoWayScaledSprite("tiefighter", tieSurface) );
   }
   sort(ties.begin(), ties.end(), ScaledSpriteCompare());
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
@@ -190,7 +191,7 @@ void Manager::play() {
           // only allow 10 bullets out at once
           // if the ship is going right
           if(bullets.size() < 10) { 
-            if(player.getPlaySprite()->velocityX() > 0) {
+            if(player.getPlaySprite()->velocityX() >= 0) {
               bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(200.0,0.0) ) );
             }
             else {

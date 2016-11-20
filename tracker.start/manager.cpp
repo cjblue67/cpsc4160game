@@ -9,12 +9,13 @@
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
+#include "twoWayScaledSprite.h"
 
 static std::queue<unsigned int> frameTimes;
 
 class ScaledSpriteCompare {
 public:
-  bool operator()(const ScaledSprite* lhs, const ScaledSprite* rhs)
+  bool operator()(const TwoWayScaledSprite* lhs, const TwoWayScaledSprite* rhs)
   {
     return lhs->getScale() < rhs->getScale();
   }
@@ -60,10 +61,10 @@ Manager::Manager() :
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
   sprites.push_back( new MultiSprite("wreckage") );
-  std::vector<ScaledSprite*> ties; 
+  std::vector<TwoWayScaledSprite*> ties; 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
-    ties.push_back(new ScaledSprite("tiefighter", tieSurface) );
+    ties.push_back(new TwoWayScaledSprite("tiefighter", tieSurface) );
   }
   sort(ties.begin(), ties.end(), ScaledSpriteCompare());
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
