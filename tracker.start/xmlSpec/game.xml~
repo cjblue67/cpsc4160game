@@ -64,7 +64,7 @@
 <xwing>
   <file>images/xwing.bmp</file>
   <startLoc x="120" y="140"/>
-  <frames>8</frames>
+  <frames>1</frames>
   <frameInterval>20</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
@@ -95,7 +95,7 @@
 </wreckage>
 
 <laser>
-  <file> </file>
+  <file>images/greenLasers.png</file>
   <frames>1</frames>
   <speedX>175</speedX>
   <speedY>175</speedY>
