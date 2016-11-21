@@ -24,7 +24,7 @@ private:
 
   SDL_Surface * const screen;
   World stars;
-  World planets;
+  //World planets;
   World deathStar;
   Viewport& viewport;
 
