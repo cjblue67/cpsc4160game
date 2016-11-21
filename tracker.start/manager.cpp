@@ -201,10 +201,10 @@ void Manager::play() {
           // if the ship is going right
           if(bullets.size() < 10) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(200.0,0.0) ) );
             }
             else {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(-200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
             }
           }
         }
