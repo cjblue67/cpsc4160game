@@ -43,6 +43,8 @@ private:
   void draw() const;
   void update();
 
+  bool checkForCollisions() const;
+
   Manager(const Manager&);
   Manager& operator=(const Manager&);
   void makeFrame();

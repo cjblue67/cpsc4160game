@@ -3,12 +3,22 @@
 #include <SDL.h>
 #include <iostream>
 #include "drawable.h"
+#include <vector>
 #include "2wayMultiSprite.h"
+#include "collisionStrategy.h"
 #include "gamedata.h"
 
 class Player {
 public:
   static Player& getInstance();
+  bool collidedWith(const Drawable* d) const 
+  {
+    if(strategies[0]->execute(*playerSprite, *d))
+    {
+      return strategies[1]->execute(*playerSprite, *d);
+    }
+    return false;
+  }
   void moveDown();
   void moveLeft();
   void moveRight();
@@ -26,5 +36,6 @@ private:
   Player(const Player&);
   Player& operator=(const Player&);
   Drawable* playerSprite;
+  std::vector<CollisionStrategy*> strategies;
 };
 #endif 

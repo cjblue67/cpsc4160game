@@ -92,6 +92,11 @@ void Manager::draw() const {
   if(hud.get_display()) {
   	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), 0);
   }
+
+  if(checkForCollisions())
+  {
+    player.getPlaySprite()->explode();
+  }
   
   io.printMessageAt(title, 10, 450);
   viewport.draw();
@@ -229,4 +234,15 @@ void Manager::play() {
     draw();
     update();
   }
+}
+
+bool Manager::checkForCollisions() const 
+{
+  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
+  while( sprite != sprites.end())  
+  {
+    if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { return true; }
+    ++sprite;
+  }
+  return false;
 }

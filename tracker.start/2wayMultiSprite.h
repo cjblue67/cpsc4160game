@@ -4,6 +4,8 @@
 #include <vector>
 #include "drawable.h"
 
+class ExplodingSprite;
+
 class TwoWayMultiSprite : public Drawable {
 public:
   TwoWayMultiSprite(const std::string&);
@@ -12,6 +14,7 @@ public:
 
   virtual void draw() const;
   virtual void update(Uint32 ticks);
+  virtual void explode();
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
@@ -27,7 +30,11 @@ protected:
   float timeSinceLastFrame;
   int frameWidth;
   int frameHeight;
-
+  ExplodingSprite* explosion;
+  TwoWayMultiSprite& operator=(const TwoWayMultiSprite&);
   void advanceFrame(Uint32 ticks);
+
+private:
+  
 };
 #endif

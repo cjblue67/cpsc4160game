@@ -1,11 +1,12 @@
 #include "2wayMultiSprite.h"
 #include "gamedata.h"
 #include "frameFactory.h"
+#include "explodingSprite.h"
 
 void TwoWayMultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
 	Vector2f direction = getVelocity();
-	if (timeSinceLastFrame > frameInterval && direction[0] >= 0) {
+	if (timeSinceLastFrame > frameInterval && direction[0] > 0) {
                 currentFrame = (currentFrame+1) % (numberOfFrames/2);
 		timeSinceLastFrame = 0;
 	}
@@ -31,7 +32,8 @@ TwoWayMultiSprite::TwoWayMultiSprite( const std::string& name) :
   frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval") ),
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
-  frameHeight(frames[0]->getHeight())
+  frameHeight(frames[0]->getHeight()),
+  explosion(NULL)
 { }
 
 TwoWayMultiSprite::TwoWayMultiSprite(const TwoWayMultiSprite& s) :
@@ -44,16 +46,32 @@ TwoWayMultiSprite::TwoWayMultiSprite(const TwoWayMultiSprite& s) :
   frameInterval( s.frameInterval ),
   timeSinceLastFrame( s.timeSinceLastFrame ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight )
+  frameHeight( s.frameHeight ),
+  explosion(NULL)
   { }
 
-void TwoWayMultiSprite::draw() const { 
+void TwoWayMultiSprite::draw() const {
+  if(explosion)
+  {
+    explosion->draw();
+    return;
+  } 
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
   frames[currentFrame]->draw(x, y);
 }
 
 void TwoWayMultiSprite::update(Uint32 ticks) { 
+  if(explosion)
+  {
+    explosion->update(ticks);
+    if(explosion->chunkCount() == 0)
+    {
+      delete explosion;
+      explosion = NULL;
+    }
+    return;
+  }
   advanceFrame(ticks);
 
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
@@ -74,3 +92,16 @@ void TwoWayMultiSprite::update(Uint32 ticks) {
   }  
 
 }
+
+void TwoWayMultiSprite::explode()
+{
+  if(explosion)
+  {
+    explosion->draw();
+    std::cout << "I'm exploding!" << std::endl;
+    return;
+  }
+  Sprite sprite(getName(), getPosition(), getVelocity(), frames[currentFrame]);
+  explosion = new ExplodingSprite(sprite);
+}
+

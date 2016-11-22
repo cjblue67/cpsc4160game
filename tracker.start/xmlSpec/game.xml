@@ -13,11 +13,6 @@
 <username>cprenti</username>
 <framesFPS>200</framesFPS>
 
-<chunk>
-  <distance>50</distance>
-  <size>20</size>
-</chunk>
-
 <view>
   <width>854</width>
   <height>480</height>
@@ -67,6 +62,10 @@
   <speedX>0</speedX>
   <speedY>0</speedY>
   <frames>2</frames>
+  <chunk>
+    <size>20</size>
+    <distance>50</distance>
+  </chunk>
   <transparency>true</transparency>
 </xwing>
 

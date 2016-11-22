@@ -79,6 +79,8 @@ void MultiSprite::explode()
     explosion->draw();
     return;
   }
+  Sprite sprite(getName(), getPosition(), getVelocity(), frames[currentFrame]);
+  explosion = new ExplodingSprite(sprite);
 }
 
 
