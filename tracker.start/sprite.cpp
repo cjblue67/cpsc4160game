@@ -16,8 +16,7 @@ Sprite::Sprite(const std::string& name) :
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL)
-{ }
+  explosion(NULL) {}
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel):
   Drawable(n, pos, vel), 
@@ -26,8 +25,7 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel):
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL)
-{ }
+  explosion(NULL) {}
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
                const Frame* frm):
@@ -37,8 +35,7 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL)
-{ }
+  explosion(NULL) {}
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s), 
@@ -47,10 +44,15 @@ Sprite::Sprite(const Sprite& s) :
   frameHeight(s.getFrame()->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL)
-{ }
+  explosion(NULL) {}
+
 
 void Sprite::draw() const { 
+  if(explosion)
+  {
+    explosion->draw();
+    return;
+  }
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
   frame->draw(x, y); 
@@ -65,6 +67,11 @@ void Sprite::update(Uint32 ticks) {
   {
     explosion->update(ticks);
     //check position, delete if offscreen
+    if(explosion->chunkCount() == 0)
+    {
+      delete explosion;
+      explosion = NULL;
+    }
     return;
   }
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;

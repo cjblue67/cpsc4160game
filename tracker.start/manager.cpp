@@ -75,7 +75,7 @@ Manager::Manager() :
     sprites.push_back(ties[i]);
   }
   bullets.reserve(10);
-  viewport.setObjectToTrack(sprites[currentSprite]);
+  viewport.setObjectToTrack(player.getPlaySprite());
 }
 
 void Manager::draw() const {
@@ -97,6 +97,12 @@ void Manager::draw() const {
   {
     player.getPlaySprite()->explode();
   }
+
+  //Drawable* sprite = NULL;
+  //if((sprite = shot()) != NULL)
+  //{
+  //  sprite->explode();
+  //}
   
   io.printMessageAt(title, 10, 450);
   viewport.draw();
@@ -246,3 +252,22 @@ bool Manager::checkForCollisions() const
   }
   return false;
 }
+
+/*Drawable* Manager::shot() const
+{ 
+  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
+  while(sprite != sprites.end())
+  {
+    std::vector<Sprite*>::const_iterator bullet = bullets.begin();
+    while(bullet != bullets.end())
+    {
+      if(sprite.collidedWith(*bullet))
+      {
+        return *sprite;
+      }
+      bullet++;
+    }
+    sprite++;
+  }
+  return NULL;
+}*/

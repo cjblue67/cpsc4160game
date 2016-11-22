@@ -2,26 +2,24 @@ Name: Cecilia Prentice (and Christopher West)
 Clemson Email Address: cprenti@g.clemson.edu (and cjwest@g.clemson.edu)
 Course number: 4160
 
-Project no: 4
-Project due date: 10/28/2016
+Project no: 5
+Project due date: 11/22/2016
 
-Project description: Create a hud and a player class on existing project
+Project description: Add in collisions, projectiles, and explosions into the project
 
-Extra Contribution: Added star wars theme to project
+Extra Contribution: Added star wars theme to project, updated sprites, still hand drawn, just better
 
-Problems with this project: key up to stop player object after it started moving not working
+Problems with this project: had small difficulty with alignment of sprites, and had trouble figuring out how to get collisions to work
 
-Our project is going to be a side scrolling shooter with a star wars theme. The player pilots an x-wing and has to shoot down tie fighters on the way to the core of the death star. High reaching aspirations for this project would be to have sprite change animation for differing speds exclusively, as well as have when you shoot a tie fighter for it to be replaced by a wreckage sprites that falls off
-
-DR MALLOY GAVE US A 3 DAY EXTENSION ON THIS PROJECT	
+Our project is going to be a side scrolling shooter with a star wars theme. The player pilots an x-wing and has to shoot down tie fighters on the way to the core of the death star. High reaching aspirations for this project would be to have sprite change animation for differing speds exclusively, as well as have when you shoot a tie fighter for it to be replaced by a wreckage sprites that falls off	
 
 Cecilia's Contributions:
-- Created HUD
-- Fixed FPS Calculations/ Fixed Redrawing of Frames
-- Fixed bug we had with stopping ship upon key release
-- Fixed problems with images so they show up the way they are supposed to/don't have flying pink dots over them
+- Redrew sprites
+- Added projectiles
+- Created object pooling
 
 
-Chris' Contributions:
-- Painter's Algorithm
-- ASDW Key input/movement
+Chris' Contributions
+- Set up collisions between player and other sprites
+- Created chunking for all sprites
+- Created laser sprites

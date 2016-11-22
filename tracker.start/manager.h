@@ -44,6 +44,7 @@ private:
   void update();
 
   bool checkForCollisions() const;
+  Drawable* shot() const;
 
   Manager(const Manager&);
   Manager& operator=(const Manager&);

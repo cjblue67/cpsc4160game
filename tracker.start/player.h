@@ -4,8 +4,8 @@
 #include <iostream>
 #include "drawable.h"
 #include <vector>
-#include "2wayMultiSprite.h"
 #include "collisionStrategy.h"
+#include "2wayMultiSprite.h"
 #include "gamedata.h"
 
 class Player {

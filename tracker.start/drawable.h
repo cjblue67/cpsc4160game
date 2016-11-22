@@ -9,14 +9,14 @@
 // Drawable is an Abstract Base Class (ABC) that
 // specifies the methods that derived classes may
 // and must have.
+
 class Drawable {
 public:
   Drawable(const std::string& n, const Vector2f& pos, const Vector2f& vel): 
     name(n), position(pos), velocity(vel) {}
 
   Drawable(const Drawable& s) : 
-    name(s.name), position(s.position), velocity(s.velocity)
-    { }
+    name(s.name), position(s.position), velocity(s.velocity) {} 
 
   virtual ~Drawable() {}
 
@@ -43,8 +43,10 @@ public:
   const Vector2f& getPosition() const   { return position; }
   void setPosition(const Vector2f& pos) { position = pos;  }
 
-  virtual bool collidedWith(const Drawable*) const { 
-    throw std::string("No collidedWith");  
+  virtual bool collidedWith(const Drawable*) const 
+  {
+    std::cout << "can't collide" << std::endl;
+    return false;
   }
   
   virtual void explode() { std::cout << "I can't explode!" << std::endl; }

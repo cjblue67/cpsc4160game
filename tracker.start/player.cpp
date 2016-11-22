@@ -10,8 +10,8 @@ Player& Player::getInstance()
 Player::Player(): lives(0), playerSprite(new TwoWayMultiSprite("xwing")), 
 strategies() 
 {
-  strategies.push_back(new PerPixelCollisionStrategy);
   strategies.push_back(new RectangularCollisionStrategy);
+  strategies.push_back(new PerPixelCollisionStrategy);
 } 
 
 void Player::moveRight()

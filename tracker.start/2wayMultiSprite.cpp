@@ -98,7 +98,6 @@ void TwoWayMultiSprite::explode()
   if(explosion)
   {
     explosion->draw();
-    std::cout << "I'm exploding!" << std::endl;
     return;
   }
   Sprite sprite(getName(), getPosition(), getVelocity(), frames[currentFrame]);
