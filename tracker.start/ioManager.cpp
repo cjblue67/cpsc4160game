@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include "ioManager.h"
-//#include "hud.h"
+#include "hud.h"
 using std::string;
 
 IOManager& IOManager::getInstance() {

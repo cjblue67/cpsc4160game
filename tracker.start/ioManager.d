@@ -1,1 +1,2 @@
-ioManager.o ioManager.d : ioManager.cpp ioManager.h gamedata.h vector2f.h parseXML.h
+ioManager.o ioManager.d : ioManager.cpp ioManager.h gamedata.h vector2f.h parseXML.h \
+ hud.h

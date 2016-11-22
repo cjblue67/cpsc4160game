@@ -3,6 +3,8 @@
 #include <string>
 #include "drawable.h"
 
+class ExplodingSprite;
+
 class Sprite : public Drawable {
 public:
   Sprite(const std::string&);
@@ -14,6 +16,7 @@ public:
 
   virtual const Frame* getFrame() const { return frame; }
   virtual void draw() const;
+  virtual void explode();
 
   virtual void update(Uint32 ticks);
   virtual bool updateRemovable(Uint32 ticks);
@@ -26,5 +29,6 @@ private:
   int worldWidth;
   int worldHeight;
   int getDistance(const Sprite*) const;
+  ExplodingSprite* explosion;
 };
 #endif

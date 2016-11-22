@@ -26,7 +26,8 @@ MultiSprite::MultiSprite( const std::string& name) :
   frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval") ),
   timeSinceLastFrame( 0 ),
   frameWidth(frames[0]->getWidth()),
-  frameHeight(frames[0]->getHeight())
+  frameHeight(frames[0]->getHeight()),
+  explosion(NULL)
 { }
 
 MultiSprite::MultiSprite(const MultiSprite& s) :
@@ -39,7 +40,8 @@ MultiSprite::MultiSprite(const MultiSprite& s) :
   frameInterval( s.frameInterval ),
   timeSinceLastFrame( s.timeSinceLastFrame ),
   frameWidth( s.frameWidth ),
-  frameHeight( s.frameHeight )
+  frameHeight( s.frameHeight ),
+  explosion(NULL)
   { }
 
 void MultiSprite::draw() const { 
@@ -69,3 +71,14 @@ void MultiSprite::update(Uint32 ticks) {
   }  
 
 }
+
+void MultiSprite::explode()
+{
+  if(explosion)
+  {
+    explosion->draw();
+    return;
+  }
+}
+
+

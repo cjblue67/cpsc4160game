@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "drawable.h"
+#include "explodingSprite.h"
 
 class MultiSprite : public Drawable {
 public:
@@ -15,6 +16,7 @@ public:
   virtual const Frame* getFrame() const { 
     return frames[currentFrame]; 
   }
+  void explode();
 
 protected:
   const std::vector<Frame *> frames;
@@ -29,5 +31,9 @@ protected:
   int frameHeight;
 
   void advanceFrame(Uint32 ticks);
+
+private:
+  MultiSprite& operator=(const MultiSprite& rhs);
+  ExplodingSprite* explosion;
 };
 #endif

@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "gamedata.h"
 #include "frameFactory.h"
+#include "explodingSprite.h"
 
 Sprite::Sprite(const std::string& name) :
   Drawable(name,
@@ -14,7 +15,8 @@ Sprite::Sprite(const std::string& name) :
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  explosion(NULL)
 { }
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel):
@@ -23,7 +25,8 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel):
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  explosion(NULL)
 { }
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
@@ -33,7 +36,8 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  explosion(NULL)
 { }
 
 Sprite::Sprite(const Sprite& s) :
@@ -42,7 +46,8 @@ Sprite::Sprite(const Sprite& s) :
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
-  worldHeight(Gamedata::getInstance().getXmlInt("world/height"))
+  worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
+  explosion(NULL)
 { }
 
 void Sprite::draw() const { 
@@ -56,6 +61,12 @@ int Sprite::getDistance(const Sprite *obj) const {
 }
 
 void Sprite::update(Uint32 ticks) { 
+  if(explosion)
+  {
+    explosion->update(ticks);
+    //check position, delete if offscreen
+    return;
+  }
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
 
@@ -72,6 +83,15 @@ void Sprite::update(Uint32 ticks) {
   if ( X() > worldWidth-frameWidth) {
     velocityX( -abs( velocityX() ) );
   }  
+}
+
+void Sprite::explode()
+{
+  if(explosion)
+  {
+    explosion->draw();
+    return;
+  }
 }
 
 bool Sprite::updateRemovable(Uint32 ticks) { 
@@ -102,5 +122,6 @@ Sprite& Sprite::operator=(const Sprite& rhs)
   frameHeight = rhs.frameHeight;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
+  explosion = NULL;
   return *this;
 }

@@ -13,6 +13,11 @@
 <username>cprenti</username>
 <framesFPS>200</framesFPS>
 
+<chunk>
+  <distance>50</distance>
+  <size>20</size>
+</chunk>
+
 <view>
   <width>854</width>
   <height>480</height>
