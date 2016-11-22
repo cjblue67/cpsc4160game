@@ -26,9 +26,9 @@ public:
   Vector2f getCenter() const { 
     return Vector2f( X()+frame->getWidth()/2, Y()+frame->getHeight()/2 );
   }
-
-private:
   double scale;
+private:
+  
   SDL_Surface* scaledSurface;
   const Frame * frame;
   int frameWidth;

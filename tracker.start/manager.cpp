@@ -9,12 +9,13 @@
 #include "sprite.h"
 #include "gamedata.h"
 #include "manager.h"
+#include "twoWayScaledSprite.h"
 
 static std::queue<unsigned int> frameTimes;
 
 class ScaledSpriteCompare {
 public:
-  bool operator()(const ScaledSprite* lhs, const ScaledSprite* rhs)
+  bool operator()(const TwoWayScaledSprite* lhs, const TwoWayScaledSprite* rhs)
   {
     return lhs->getScale() < rhs->getScale();
   }
@@ -26,6 +27,9 @@ Manager::~Manager() {
   for (unsigned i = 0; i < sprites.size(); ++i) {
     delete sprites[i];
   }
+  for(unsigned i = 0; i < bullets.size(); ++i) {
+  	delete bullets[i];
+  }
 }
 
 Manager::Manager() :
@@ -35,7 +39,7 @@ Manager::Manager() :
   player( Player::getInstance()),
   screen( io.getScreen() ),
   stars("stars", Gamedata::getInstance().getXmlInt("stars/factor") ),
-  planets("planets", Gamedata::getInstance().getXmlInt("planets/factor") ),
+  //planets("planets", Gamedata::getInstance().getXmlInt("planets/factor") ),
   deathStar("deathStar", Gamedata::getInstance().getXmlInt("deathStar/factor") ),
   viewport( Viewport::getInstance() ),
   sprites(),
@@ -60,10 +64,10 @@ Manager::Manager() :
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
   sprites.push_back( new MultiSprite("wreckage") );
-  std::vector<ScaledSprite*> ties; 
+  std::vector<TwoWayScaledSprite*> ties; 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
-    ties.push_back(new ScaledSprite("tiefighter", tieSurface) );
+    ties.push_back(new TwoWayScaledSprite("tiefighter", tieSurface) );
   }
   sort(ties.begin(), ties.end(), ScaledSpriteCompare());
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
@@ -76,7 +80,7 @@ Manager::Manager() :
 
 void Manager::draw() const {
   stars.draw();
-  planets.draw();
+  //planets.draw();
   deathStar.draw();
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
@@ -137,7 +141,7 @@ void Manager::update() {
     makeFrame();
   }
   stars.update();
-  planets.update();
+  //planets.update();
   deathStar.update();
   viewport.update(); // always update viewport last
   if(frameTimes.size() >=(unsigned) Gamedata::getInstance().getXmlInt("framesFPS")) { 
@@ -164,16 +168,22 @@ void Manager::play() {
           done = true;
           break;
         }
-        if ( keystate[SDLK_s] ) {
-          player.moveDown();
+        if ( keystate[SDLK_s] && keystate[SDLK_w]) {
+          player.stopYVelocity();
         }
-        if ( keystate[SDLK_d] ) {
-          player.moveRight();
-        }
-        if ( keystate[SDLK_w] ) {
+        else if ( keystate[SDLK_w] ) {
           player.moveUp();
         }
-        if ( keystate[SDLK_a] ) {
+        else if ( keystate[SDLK_s] ) {
+          player.moveDown();
+        }
+        if ( keystate[SDLK_a] && keystate[SDLK_d]) {
+          player.stopXVelocity();
+        }
+        else if ( keystate[SDLK_d] ) {
+          player.moveRight();
+        }
+        else if ( keystate[SDLK_a] ) {
           player.moveLeft();
         }
         if ( keystate[SDLK_p] ) {
@@ -191,10 +201,10 @@ void Manager::play() {
           // if the ship is going right
           if(bullets.size() < 10) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(200.0,0.0) ) );
             }
             else {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X(), player.getPlaySprite()->Y()), Vector2f(-200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
             }
           }
         }

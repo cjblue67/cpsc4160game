@@ -35,6 +35,5 @@ private:
   int frameHeight;
   int worldWidth;
   int worldHeight;
-  virtual bool updateRemovable(Uint32 ticks);
 };
 #endif

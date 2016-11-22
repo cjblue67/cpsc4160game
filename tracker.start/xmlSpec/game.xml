@@ -24,36 +24,29 @@
 </view>
 
 <world>
-  <width>2000</width>
-  <height>960</height>
+  <width>2300</width>
+  <height>2000</height>
 </world>
 
 <playerLives>3</playerLives>
 
 <stars>
-  <file>images/stars.bmp</file>
-  <red>193</red>
-  <green>205</green>
-  <blue>205</blue>
-  <factor>1/4</factor>
-  <transparency>false</transparency>
-</stars>
-
-<planets>
-  <file>images/planet.bmp</file>
-  <red>193</red>
-  <green>205</green>
-  <blue>205</blue>
-  <factor>1/2</factor>
-  <transparency>true</transparency>
-</planets>
-
-<deathStar>
-  <file>images/deathstar.bmp</file>
+  <file>images/stars.png</file>
   <red>193</red>
   <green>205</green>
   <blue>205</blue>
   <factor>1</factor>
+  <transparency>false</transparency>
+</stars>
+
+
+
+<deathStar>
+  <file>images/deathstar.png</file>
+  <red>193</red>
+  <green>205</green>
+  <blue>205</blue>
+  <factor>2</factor>
   <transparency>true</transparency>
 </deathStar>
 
@@ -73,6 +66,7 @@
   <frameInterval>20</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
+  <frames>2</frames>
   <transparency>true</transparency>
 </xwing>
 
@@ -86,6 +80,8 @@
   <startLoc x = "320" y = "200" />
   <speedX>-175</speedX>
   <speedY>-175</speedY>
+  <frames>2</frames>
+  <frameInterval>20</frameInterval>
   <transparency>true</transparency>
 </tiefighter>
 
