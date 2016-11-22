@@ -6,7 +6,7 @@
 void TwoWayMultiSprite::advanceFrame(Uint32 ticks) {
 	timeSinceLastFrame += ticks;
 	Vector2f direction = getVelocity();
-	if (timeSinceLastFrame > frameInterval && direction[0] > 0) {
+	if (timeSinceLastFrame > frameInterval && direction[0] >= 0) {
                 currentFrame = (currentFrame+1) % (numberOfFrames/2);
 		timeSinceLastFrame = 0;
 	}
