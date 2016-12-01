@@ -75,7 +75,7 @@ Manager::Manager() :
     sprites.push_back(ties[i]);
   }
   bullets.reserve(10);
-  viewport.setObjectToTrack(sprites[currentSprite]);
+  viewport.setObjectToTrack(player.getPlaySprite());
 }
 
 void Manager::draw() const {
@@ -92,6 +92,17 @@ void Manager::draw() const {
   if(hud.get_display()) {
   	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), 0);
   }
+
+  if(checkForCollisions())
+  {
+    player.getPlaySprite()->explode();
+  }
+  checkForBulletCollisions();
+  //Drawable* sprite = NULL;
+  //if((sprite = shot()) != NULL)
+  //{
+  //  sprite->explode();
+  //}
   
   io.printMessageAt(title, 10, 450);
   viewport.draw();
@@ -201,10 +212,10 @@ void Manager::play() {
           // if the ship is going right
           if(bullets.size() < 10) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-10), Vector2f(200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(200.0,0.0) ) );
             }
             else {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-10), Vector2f(-200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
             }
           }
         }
@@ -230,3 +241,52 @@ void Manager::play() {
     update();
   }
 }
+
+bool Manager::checkForCollisions() const 
+{
+  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
+  while( sprite != sprites.end())  
+  {
+    if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { return true; }
+    ++sprite;
+  }
+  return false;
+}
+void Manager::checkForBulletCollisions() const 
+{
+  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
+  std::vector<Sprite*>::const_iterator bullet = bullets.begin();
+  while( sprite != sprites.end())  
+  {
+    while(bullet != bullets.end() && sprite!=sprites.end()) {
+      if( sprite.collidedWith(*bullet) && (*sprite)!= player.getPlaySprite()) { 
+        delete *bullet;
+        bullet = bullets.erase(bullet);
+        sprite.explode();
+        delete *sprite;
+        sprite = sprites.erase(sprite); 
+      }
+      ++bullet;
+    }
+    ++sprite;
+    
+  }
+}
+/*Drawable* Manager::shot() const
+{ 
+  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
+  while(sprite != sprites.end())
+  {
+    std::vector<Sprite*>::const_iterator bullet = bullets.begin();
+    while(bullet != bullets.end())
+    {
+      if(sprite.collidedWith(*bullet))
+      {
+        return *sprite;
+      }
+      bullet++;
+    }
+    sprite++;
+  }
+  return NULL;
+}*/

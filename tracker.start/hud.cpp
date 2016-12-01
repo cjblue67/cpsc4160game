@@ -21,6 +21,6 @@ void Hud::draw(int seconds, int FPS, int lives, int enemies) const {
     io.printMessageAt("Spacebar to shoot", 10, 220);
     io.printMessageValueAt("Lives Remaining: ", lives, 10, 250);
     io.printMessageValueAt("Enemies destroyed: ", enemies, 10, 280);
-    io.printMessageAt("Kill 50 enemies to escape with", 10, 310);
+    io.printMessageAt("Kill 25 enemies to escape with", 10, 310);
     io.printMessageAt("the plans and save the galaxy!", 10, 340);
 }
