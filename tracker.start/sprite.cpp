@@ -3,6 +3,7 @@
 #include "gamedata.h"
 #include "frameFactory.h"
 #include "explodingSprite.h"
+#include "collisionStrategy.h"
 
 Sprite::Sprite(const std::string& name) :
   Drawable(name,
@@ -16,7 +17,12 @@ Sprite::Sprite(const std::string& name) :
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL) {}
+  explosion(NULL), 
+  strategies() 
+{
+  strategies.push_back(new RectangularCollisionStrategy);
+  strategies.push_back(new PerPixelCollisionStrategy);
+}
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel):
   Drawable(n, pos, vel), 
@@ -25,7 +31,12 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel):
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL) {}
+  explosion(NULL), 
+  strategies() 
+{
+  strategies.push_back(new RectangularCollisionStrategy);
+  strategies.push_back(new PerPixelCollisionStrategy);
+}
 
 Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
                const Frame* frm):
@@ -35,7 +46,12 @@ Sprite::Sprite(const string& n, const Vector2f& pos, const Vector2f& vel,
   frameHeight(frame->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL) {}
+  explosion(NULL), 
+  strategies() 
+{
+  strategies.push_back(new RectangularCollisionStrategy);
+  strategies.push_back(new PerPixelCollisionStrategy);
+}
 
 Sprite::Sprite(const Sprite& s) :
   Drawable(s), 
@@ -44,7 +60,12 @@ Sprite::Sprite(const Sprite& s) :
   frameHeight(s.getFrame()->getHeight()),
   worldWidth(Gamedata::getInstance().getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance().getXmlInt("world/height")),
-  explosion(NULL) {}
+  explosion(NULL), 
+  strategies() 
+{
+  strategies.push_back(new RectangularCollisionStrategy);
+  strategies.push_back(new PerPixelCollisionStrategy);
+}
 
 
 void Sprite::draw() const { 
@@ -99,6 +120,17 @@ void Sprite::explode()
     explosion->draw();
     return;
   }
+  explosion = new ExplodingSprite(*this);
+}
+
+bool Sprite::collidedWith(const Drawable* d) const
+{
+  std::cout << "collided!\n\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
+  if(strategies[0]->execute(*this, *d))
+  {
+    return strategies[1]->execute(*this, *d);
+  }
+  return false;
 }
 
 bool Sprite::updateRemovable(Uint32 ticks) { 

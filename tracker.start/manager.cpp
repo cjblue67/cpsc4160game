@@ -98,11 +98,11 @@ void Manager::draw() const {
     player.getPlaySprite()->explode();
   }
 
-  //Drawable* sprite = NULL;
-  //if((sprite = shot()) != NULL)
-  //{
-  //  sprite->explode();
-  //}
+  Drawable* sprite = NULL;
+  if((sprite = shot()) != NULL)
+  {
+    sprite->explode();
+  }
   
   io.printMessageAt(title, 10, 450);
   viewport.draw();
@@ -253,7 +253,7 @@ bool Manager::checkForCollisions() const
   return false;
 }
 
-/*Drawable* Manager::shot() const
+Drawable* Manager::shot() const
 { 
   std::vector<Drawable*>::const_iterator sprite = sprites.begin();
   while(sprite != sprites.end())
@@ -261,7 +261,7 @@ bool Manager::checkForCollisions() const
     std::vector<Sprite*>::const_iterator bullet = bullets.begin();
     while(bullet != bullets.end())
     {
-      if(sprite.collidedWith(*bullet))
+      if((*sprite)->collidedWith(*bullet))
       {
         return *sprite;
       }
@@ -270,4 +270,4 @@ bool Manager::checkForCollisions() const
     sprite++;
   }
   return NULL;
-}*/
+}

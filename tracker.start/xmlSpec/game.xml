@@ -81,6 +81,10 @@
   <speedY>-175</speedY>
   <frames>2</frames>
   <frameInterval>20</frameInterval>
+  <chunk>
+    <size>20</size>
+    <distance>50</distance>
+  </chunk>
   <transparency>true</transparency>
 </tiefighter>
 

@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 #include "drawable.h"
+class ExplodingSprite;
+class CollisionStrategy;
 
 class TwoWayScaledSprite : public Drawable{
 public:
@@ -29,7 +31,8 @@ public:
     return Vector2f( X()+getFrame()->getWidth()/2, Y()+getFrame()->getHeight()/2 );
   }
   double scale;
-  
+  virtual bool collidedWith(const Drawable* d) const;
+  virtual void explode();
   
 private:
   
@@ -44,6 +47,8 @@ private:
   unsigned frameInterval;
   float timeSinceLastFrame;
   void advanceFrame(Uint32 ticks);
+  ExplodingSprite* explosion;
+  std::vector<CollisionStrategy*> strategies;
   
   TwoWayScaledSprite& operator=(const TwoWayScaledSprite&);
 };
