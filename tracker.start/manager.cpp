@@ -252,7 +252,7 @@ bool Manager::checkForCollisions() const
   while( sprite != sprites.end())  
   {
     if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { 
-        player.setLives(player.getLives()-1);
+        if(!god) player.setLives(player.getLives()-1);
         return true;
      }
     ++sprite;
