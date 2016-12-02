@@ -23,8 +23,6 @@
   <height>2000</height>
 </world>
 
-<playerLives>3</playerLives>
-
 <stars>
   <file>images/stars.png</file>
   <red>193</red>
