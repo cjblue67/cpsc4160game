@@ -34,6 +34,16 @@ void Player::moveDown()
   playerSprite->velocityY(150);
 }
 
+const float getXVelocity() const
+{
+  playerSprite->velocityX();
+}
+
+const float getYVelocity() const
+{
+  playerSprite->velocityY();
+}
+
 void Player::stopXVelocity()
 {
   playerSprite->velocityX(0);

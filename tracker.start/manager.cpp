@@ -5,6 +5,7 @@
 #include <vector>
 #include "scaledSprite.h"
 #include "2wayMultiSprite.h"
+#include "smartSprite.h"
 #include "multisprite.h"
 #include "sprite.h"
 #include "gamedata.h"
@@ -37,6 +38,7 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   player( Player::getInstance()),
+  sound(SDLSound::getInstance()),
   screen( io.getScreen() ),
   stars("stars", Gamedata::getInstance().getXmlInt("stars/factor") ),
   //planets("planets", Gamedata::getInstance().getXmlInt("planets/factor") ),
@@ -53,9 +55,11 @@ Manager::Manager() :
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ) ,
   hud(screen),
   dead(0),
-  god(false)
+  god(false),
+  enemiesDestroyed(0)
 {
   player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
+  
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
@@ -64,11 +68,12 @@ Manager::Manager() :
   SDL_Surface * const tieSurface = io.loadAndSet(Gamedata::getInstance().getXmlStr("tiefighter/file"),
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
-  for(int i = 0; i < Gamedata::getInstance().getXmlInt("amoutOfWreckage"); i++)
+  for(int i = 0; i < Gamedata::getInstance().getXmlInt("amountOfWreckage"); i++)
   {
     sprites.push_back( new MultiSprite("wreckage") );
   }
-  std::vector<TwoWayScaledSprite*> ties; 
+  std::vector<TwoWayScaledSprite*> ties;
+  ties.reserve(Gamedata::getInstance().getXmlInt("numberOfShips")); 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
     ties.push_back(new TwoWayScaledSprite("tiefighter", tieSurface) );
@@ -78,6 +83,11 @@ Manager::Manager() :
   {
     sprites.push_back(ties[i]);
   }
+  sprites.push_back(new SmartSprite(Gamedata::getInstance().getXmlStr("tiefighter"),
+                Vector2f(
+                   Gamedata::getInstance().getXmlInt("tiefighter/startLoc/x"), 
+                   Gamedata::getInstance().getXmlInt("tiefighter/startLoc/y")), 
+                player.getXVelocity(), bullets));
   bullets.reserve(10);
   viewport.setObjectToTrack(player.getPlaySprite());
 }
@@ -100,12 +110,15 @@ void Manager::draw() const {
   if(checkForCollisions())
   {
     player.getPlaySprite()->explode();
+    sound[1];
   }
 
   Drawable* sprite = NULL;
   if((sprite = shot()) != NULL)
   {
     sprite->explode();
+    sound[5];
+    //dead++;
   }
   
   io.printMessageAt(title, 10, 450);
@@ -220,9 +233,11 @@ void Manager::play() {
           if(bullets.size() < 10) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
               bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()+20), Vector2f(200.0,0.0) ) );
+              sound[3];
             }
             else {
               bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
+              sound[3];
             }
           }
         }
@@ -272,8 +287,7 @@ Drawable* Manager::shot() const
     while(bullet != bullets.end())
     {
       if((*sprite)->collidedWith(*bullet)&&(*sprite)!=player.getPlaySprite())
-      {
-	dead++;	
+      {	
         return *sprite;
       }
       bullet++;

@@ -25,7 +25,7 @@ public:
   virtual bool updateRemovable(Uint32 ticks);
   Sprite& operator=(const Sprite& rhs);
   
-private:
+protected:
   const Frame * frame;
   int frameWidth;
   int frameHeight;
