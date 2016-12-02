@@ -164,7 +164,7 @@ void Manager::update() {
 
 void Manager::reset() {
   enemiesDestroyed = 0;
-  player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
+  player.setLives(0);
 }
 
 void Manager::play() {
@@ -252,7 +252,7 @@ bool Manager::checkForCollisions() const
   while( sprite != sprites.end())  
   {
     if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { 
-        if(!god) player.setLives(player.getLives()-1);
+        if(!god) player.setLives(player.getLives()+1);
         return true;
      }
     ++sprite;
@@ -268,9 +268,9 @@ Drawable* Manager::shot() const
     std::vector<Sprite*>::const_iterator bullet = bullets.begin();
     while(bullet != bullets.end())
     {
-      if((*sprite)->collidedWith(*bullet)&&(*sprite)!=player.getPlaySprite())
+      if((*sprite)->collidedWith(*bullet))
       {
-	dead++;	
+	if(*sprite)!=player.getPlaySprite() {dead++;}	
         return *sprite;
       }
       bullet++;
