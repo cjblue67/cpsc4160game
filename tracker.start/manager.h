@@ -7,6 +7,7 @@
 #include "viewport.h"
 #include "player.h"
 #include "hud.h"
+#include "sound.h"
 #include "sprite.h"
 
 class Manager {
@@ -21,6 +22,7 @@ private:
   const IOManager& io;
   Clock& clock;
   Player& player;
+  SDLSound& sound;
 
   SDL_Surface * const screen;
   World stars;
@@ -52,4 +54,6 @@ private:
   int dead;
   bool god;
   void reset();
+  int enemiesDestroyed;
 };
+  

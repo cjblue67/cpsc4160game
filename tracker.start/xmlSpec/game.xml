@@ -4,8 +4,8 @@
      So make sure to include your name as part of the screenTitle -->
 <screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
 <maxStringSize>80</maxStringSize>
-<amountOfWreckage>3</amoutOfWreckage>
-<numberOfShips>3</numberOfShips>
+<amountOfWreckage>5</amountOfWreckage>
+<numberOfShips>20</numberOfShips>
 
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
@@ -55,7 +55,7 @@
 
 <xwing>
   <file>images/xwing.bmp</file>
-  <startLoc x="120" y="140"/>
+  <startLoc x="1000" y="1000"/>
   <frames>8</frames>
   <frameInterval>20</frameInterval>
   <speedX>0</speedX>
@@ -89,7 +89,7 @@
 
 <wreckage>
   <file>images/wreckage.png</file>
-  <startLoc x="100" y="40"/>
+  <startLoc x="0" y="0"/>
   <frames>4</frames>
   <frameInterval>18</frameInterval>
   <speedX>175</speedX>
@@ -106,9 +106,9 @@
 </laser>
 
 <enemyLaser>
-  <files>images/greenLaser.png</file>
+  <files>images/greenLaser.png</files>
   <frames>1</frames>
-  <speedx>175</speedX>
+  <speedX>175</speedX>
   <speedY>0</speedY>
   <transparency>true</transparency>
 </enemyLaser>
