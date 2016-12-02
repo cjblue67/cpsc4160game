@@ -8,7 +8,7 @@ Player& Player::getInstance()
 }
 
 Player::Player(): lives(0), playerSprite(new TwoWayMultiSprite("xwing")), 
-strategies() 
+strategies(), enemiesDestroyed(0) 
 {
   strategies.push_back(new RectangularCollisionStrategy);
   strategies.push_back(new PerPixelCollisionStrategy);
@@ -34,14 +34,14 @@ void Player::moveDown()
   playerSprite->velocityY(150);
 }
 
-const float getXVelocity() const
+float Player::getXVelocity() const
 {
-  playerSprite->velocityX();
+  return playerSprite->velocityX();
 }
 
-const float getYVelocity() const
+float Player::getYVelocity() const
 {
-  playerSprite->velocityY();
+  return playerSprite->velocityY();
 }
 
 void Player::stopXVelocity()

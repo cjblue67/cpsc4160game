@@ -9,7 +9,7 @@ class Sprite;
 class ExplodingSprite;
 class CollisionStrategy;
 
-class SmartSprite : Drawable {
+class SmartSprite : public Drawable {
 public:
   SmartSprite(const std::string&, const Vector2f& pos, const float v, const std::vector<Sprite*> b);
   void goUp();

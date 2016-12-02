@@ -23,8 +23,8 @@ public:
   void moveLeft();
   void moveRight();
   void moveUp();
-  const float getXVelocity();
-  const float getYVelocity();
+  float getXVelocity() const;
+  float getYVelocity() const;
   void stopXVelocity();
   void stopYVelocity();
   ~Player() { }
