@@ -288,7 +288,7 @@ Drawable* Manager::shot() const
     {
       if((*sprite)->collidedWith(*bullet))
       {
-	if(*sprite)!=player.getPlaySprite()) {dead++;}
+	if((*sprite)!=player.getPlaySprite()) {dead++;}
         return *sprite;
       }
       bullet++;
