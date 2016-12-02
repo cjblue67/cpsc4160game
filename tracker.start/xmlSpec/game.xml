@@ -4,6 +4,7 @@
      So make sure to include your name as part of the screenTitle -->
 <screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
 <maxStringSize>80</maxStringSize>
+<amountOfWreckage>3</amoutOfWreckage>
 <numberOfShips>3</numberOfShips>
 
 <frameCap>60</frameCap>
@@ -99,10 +100,18 @@
 </wreckage>
 
 <laser>
-  <file>images/greenLasers.png</file>
+  <file>images/lasers.png</file>
   <frames>1</frames>
   <speedX>175</speedX>
-  <speedY>175</speedY>
+  <speedY>0</speedY>
   <transparency>true</transparency>
 </laser>
+
+<enemyLaser>
+  <files>images/greenLaser.png</file>
+  <frames>1</frames>
+  <speedx>175</speedX>
+  <speedY>0</speedY>
+  <transparency>true</transparency>
+</enemyLaser>
 </GameData>
