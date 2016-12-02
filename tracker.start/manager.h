@@ -49,6 +49,7 @@ private:
   Manager(const Manager&);
   Manager& operator=(const Manager&);
   void makeFrame();
-  int enemiesDestroyed;
+  int dead;
+  bool god;
   void reset();
 };

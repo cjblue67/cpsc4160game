@@ -52,7 +52,8 @@ Manager::Manager() :
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ) ,
   hud(screen),
-  enemiesDestroyed(0)
+  dead(0),
+  god(false)
 {
   player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -182,6 +183,9 @@ void Manager::play() {
           done = true;
           break;
         }
+        if(keystate[SDLK_g]) {
+          god = ~god;
+        }
         if ( keystate[SDLK_s] && keystate[SDLK_w]) {
           player.stopYVelocity();
         }
@@ -250,7 +254,10 @@ bool Manager::checkForCollisions() const
   std::vector<Drawable*>::const_iterator sprite = sprites.begin();
   while( sprite != sprites.end())  
   {
-    if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { return true; }
+    if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { 
+        if(!god) player.setLives(player.getLives()-1);
+        return true;
+     }
     ++sprite;
   }
   return false;
@@ -264,8 +271,9 @@ Drawable* Manager::shot() const
     std::vector<Sprite*>::const_iterator bullet = bullets.begin();
     while(bullet != bullets.end())
     {
-      if((*sprite)->collidedWith(*bullet))
+      if((*sprite)->collidedWith(*bullet)&&(*sprite)!=player.getPlaySprite())
       {
+	dead++;	
         return *sprite;
       }
       bullet++;
