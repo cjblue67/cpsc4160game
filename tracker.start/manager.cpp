@@ -54,9 +54,7 @@ Manager::Manager() :
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ) ,
   hud(screen),
-  dead(0),
-  god(false),
-  enemiesDestroyed(0)
+  god(false)
 {
   player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
   
@@ -104,7 +102,7 @@ void Manager::draw() const {
   }
   
   if(hud.get_display()) {
-  	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), 0);
+  	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), player.getEnemiesDestroyed());
   }
 
   if(checkForCollisions())
@@ -116,6 +114,7 @@ void Manager::draw() const {
   Drawable* sprite = NULL;
   if((sprite = shot()) != NULL)
   {
+    if(player.getPlaySprite() != (sprite)) { player.setEnemiesDestroyed(player.getEnemiesDestroyed()+1); }
     sprite->explode();
     sound[5];
     //dead++;
@@ -179,7 +178,7 @@ void Manager::update() {
 }
 
 void Manager::reset() {
-  enemiesDestroyed = 0;
+  player.setEnemiesDestroyed(0);
   player.setLives(0);
 }
 
@@ -288,8 +287,7 @@ Drawable* Manager::shot() const
     {
       if((*sprite)->collidedWith(*bullet))
       {
-	if((*sprite)!=player.getPlaySprite()) {dead++;}
-        return *sprite;
+         return *sprite;
       }
       bullet++;
     }

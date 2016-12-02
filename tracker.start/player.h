@@ -31,7 +31,8 @@ public:
   Drawable* getPlaySprite() const { return playerSprite; } 
   int getLives() const;
   void setLives(int l);
-  
+  int getEnemiesDestroyed() const {return enemiesDestroyed;}
+  void setEnemiesDestroyed(int e) {enemiesDestroyed = e;}
 private:
   Player();
   int lives;
@@ -39,5 +40,6 @@ private:
   Player& operator=(const Player&);
   Drawable* playerSprite;
   std::vector<CollisionStrategy*> strategies;
+  int enemiesDestroyed;
 };
 #endif 
