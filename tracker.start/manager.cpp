@@ -64,7 +64,10 @@ Manager::Manager() :
   SDL_Surface * const tieSurface = io.loadAndSet(Gamedata::getInstance().getXmlStr("tiefighter/file"),
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
-  sprites.push_back( new MultiSprite("wreckage") );
+  for(int i = 0; i < Gamedata::getInstance().getXmlInt("amoutOfWreckage"); i++)
+  {
+    sprites.push_back( new MultiSprite("wreckage") );
+  }
   std::vector<TwoWayScaledSprite*> ties; 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
@@ -216,7 +219,7 @@ void Manager::play() {
           // if the ship is going right
           if(bullets.size() < 10) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()+20), Vector2f(200.0,0.0) ) );
             }
             else {
               bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
