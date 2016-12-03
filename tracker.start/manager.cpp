@@ -85,7 +85,9 @@ Manager::Manager() :
                 Vector2f(
                    Gamedata::getInstance().getXmlInt("tiefighter/startLoc/x"), 
                    Gamedata::getInstance().getXmlInt("tiefighter/startLoc/y")), 
-                player.getXVelocity(), bullets));
+                player.getXVelocity(), bullets,Gamedata::getInstance().getXmlInt("world/width"),
+                Gamedata::getInstance().getXmlInt("world/height"), Gamedata::getInstance().getXmlInt("view/width"),
+                Gamedata::getInstance().getXmlInt("view/height" )));
   bullets.reserve(10);
   viewport.setObjectToTrack(player.getPlaySprite());
 }

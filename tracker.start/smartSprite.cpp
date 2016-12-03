@@ -6,8 +6,9 @@
 #include "collisionStrategy.h"
 
 SmartSprite::SmartSprite(const std::string& name, 
-             const Vector2f& pos, const float v, const std::vector<Sprite*> b) :
-  Sprite(name, pos,
+             const Vector2f& pos, const float v, const std::vector<Sprite*> b, 
+             int wW, int wH, int fW, int fH ):
+  Drawable(name, pos,
     Vector2f(Gamedata::getInstance().getXmlInt(name+"speedX"),
              Gamedata::getInstance().getXmlInt(name+"speedY"))
   ),
@@ -16,7 +17,11 @@ SmartSprite::SmartSprite(const std::string& name,
   enemyVelocityX(v),
   bullets(b),
   currentMode(NORMAL),
-  strategies()
+  strategies(),
+  worldWidth(wW),
+  worldHeight(wH),
+  frameWidth(fW),
+  frameHeight(fH)
 {
   strategies.push_back(new RectangularCollisionStrategy);
   strategies.push_back(newPerPixelCollisionStrategy); 
@@ -32,7 +37,7 @@ void SmartSprite::draw() const {
   Uint32 y = static_cast<Uint32>(Y());
   frame->draw(x, y); 
 }
-
+/*
 void SmartSprite::update(Uint32 ticks) { 
   if(explosion)
   {
@@ -62,7 +67,7 @@ void SmartSprite::update(Uint32 ticks) {
     velocityX( -abs( velocityX() ) );
   }  
 }
-
+*/
 void SmartSprite::explode()
 {
   if(explosion)
@@ -128,5 +133,11 @@ void SmartSprite::update(Uint32 ticks)
   }
   if(Y() > worldHeight-frameHeight) {
     velocityY( -abs(velocityY() ) );
+  }
+  if(X() < 0) {
+     velocityX(abs(velocityX()));
+  }
+  if(X() > worldWidth-frameWidth) {
+     velocityX(-abs(velocityX()));
   }
 }
