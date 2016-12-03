@@ -31,11 +31,11 @@ private:
   MODE currentMode;
   SmartSprite(const SmartSprite &);
   SmartSprite& operator=(const SmartSprite &rhs);
-  ExplodingSprite *explosion;
   std::vector<CollisionStrategy*> strategies;
   int worldWidth;
   int worldHeight;
   int frameWidth;
   int frameHeight;
+  ExplodingSprite *explosion;
 };
 #endif

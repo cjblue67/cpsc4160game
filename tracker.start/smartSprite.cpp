@@ -21,10 +21,11 @@ SmartSprite::SmartSprite(const std::string& name,
   worldWidth(wW),
   worldHeight(wH),
   frameWidth(fW),
-  frameHeight(fH)
+  frameHeight(fH),
+  explosion(NULL)
 {
   strategies.push_back(new RectangularCollisionStrategy);
-  strategies.push_back(newPerPixelCollisionStrategy); 
+  strategies.push_back(new PerPixelCollisionStrategy); 
 }
 
 void SmartSprite::draw() const { 
@@ -75,7 +76,8 @@ void SmartSprite::explode()
     explosion->draw();
     return;
   }
-  explosion = new ExplodingSprite(*this);
+  Sprite sprite(getName(), getPosition(), getVelocity(), getFrame());
+  explosion = new ExplodingSprite(sprite);
 }
 
 bool SmartSprite::collidedWith(const Drawable* d) const

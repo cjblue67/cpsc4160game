@@ -4,8 +4,8 @@
      So make sure to include your name as part of the screenTitle -->
 <screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
 <maxStringSize>80</maxStringSize>
-<amountOfWreckage>5</amountOfWreckage>
-<numberOfShips>20</numberOfShips>
+<numberOfShips>3</numberOfShips>
+<amountOfWreckage>3</amountOfWreckage>
 
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
@@ -21,8 +21,10 @@
 
 <world>
   <width>2300</width>
-  <height>2000</height>
+  <height>2200</height>
 </world>
+
+<playerLives>3</playerLives>
 
 <stars>
   <file>images/stars.png</file>
@@ -55,16 +57,12 @@
 
 <xwing>
   <file>images/xwing.bmp</file>
-  <startLoc x="1000" y="1000"/>
+  <startLoc x="120" y="140"/>
   <frames>8</frames>
   <frameInterval>20</frameInterval>
   <speedX>0</speedX>
   <speedY>0</speedY>
   <frames>2</frames>
-  <chunk>
-    <size>20</size>
-    <distance>50</distance>
-  </chunk>
   <transparency>true</transparency>
 </xwing>
 
@@ -80,16 +78,12 @@
   <speedY>-175</speedY>
   <frames>2</frames>
   <frameInterval>20</frameInterval>
-  <chunk>
-    <size>20</size>
-    <distance>50</distance>
-  </chunk>
   <transparency>true</transparency>
 </tiefighter>
 
 <wreckage>
   <file>images/wreckage.png</file>
-  <startLoc x="0" y="0"/>
+  <startLoc x="100" y="40"/>
   <frames>4</frames>
   <frameInterval>18</frameInterval>
   <speedX>175</speedX>
@@ -98,18 +92,10 @@
 </wreckage>
 
 <laser>
-  <file>images/lasers.png</file>
+  <file>images/greenLasers.png</file>
   <frames>1</frames>
   <speedX>175</speedX>
-  <speedY>0</speedY>
+  <speedY>175</speedY>
   <transparency>true</transparency>
 </laser>
-
-<enemyLaser>
-  <files>images/greenLaser.png</files>
-  <frames>1</frames>
-  <speedX>175</speedX>
-  <speedY>0</speedY>
-  <transparency>true</transparency>
-</enemyLaser>
 </GameData>
