@@ -81,7 +81,7 @@ Manager::Manager() :
   {
     sprites.push_back(ties[i]);
   }
-  sprites.push_back(new SmartSprite(Gamedata::getInstance().getXmlStr("tiefighter"),
+  sprites.push_back(new SmartSprite("tiefighter",
                 Vector2f(
                    Gamedata::getInstance().getXmlInt("tiefighter/startLoc/x"), 
                    Gamedata::getInstance().getXmlInt("tiefighter/startLoc/y")), 

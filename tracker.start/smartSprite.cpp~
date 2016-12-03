@@ -9,8 +9,8 @@ SmartSprite::SmartSprite(const std::string& name,
              const Vector2f& pos, const float v, const std::vector<Sprite*> b, 
              int wW, int wH, int fW, int fH ):
   Drawable(name, pos,
-    Vector2f(Gamedata::getInstance().getXmlInt(name+"/speedX"),
-             Gamedata::getInstance().getXmlInt(name+"/speedY"))
+    Vector2f(Gamedata::getInstance().getXmlInt(name+"speedX"),
+             Gamedata::getInstance().getXmlInt(name+"speedY"))
   ),
   frame(FrameFactory::getInstance().getFrame(name) ),
   io(IOManager::getInstance()),
