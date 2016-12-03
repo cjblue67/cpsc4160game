@@ -5,6 +5,7 @@
 <screenTitle>Christopher West and Cecilia Prentice's Star Wars Animation</screenTitle>
 <maxStringSize>80</maxStringSize>
 <numberOfShips>3</numberOfShips>
+<amountOfWreckage>3</amountOfWreckage>
 
 <frameCap>60</frameCap>
 <framesAreCapped>true</framesAreCapped>
@@ -23,8 +24,6 @@
   <height>2200</height>
 </world>
 
-<playerLives>3</playerLives>
-
 <stars>
   <file>images/stars.png</file>
   <red>193</red>
@@ -33,8 +32,6 @@
   <factor>1</factor>
   <transparency>false</transparency>
 </stars>
-
-
 
 <deathStar>
   <file>images/deathstar.png</file>

@@ -56,7 +56,7 @@ Manager::Manager() :
   hud(screen),
   god(false)
 {
-  player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
+  player.setLives(0);
   
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");

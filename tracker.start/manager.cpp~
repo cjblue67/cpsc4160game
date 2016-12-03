@@ -5,6 +5,7 @@
 #include <vector>
 #include "scaledSprite.h"
 #include "2wayMultiSprite.h"
+#include "smartSprite.h"
 #include "multisprite.h"
 #include "sprite.h"
 #include "gamedata.h"
@@ -37,6 +38,7 @@ Manager::Manager() :
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   player( Player::getInstance()),
+  sound(SDLSound::getInstance()),
   screen( io.getScreen() ),
   stars("stars", Gamedata::getInstance().getXmlInt("stars/factor") ),
   //planets("planets", Gamedata::getInstance().getXmlInt("planets/factor") ),
@@ -52,9 +54,10 @@ Manager::Manager() :
   title( Gamedata::getInstance().getXmlStr("screenTitle") ),
   frameMax( Gamedata::getInstance().getXmlInt("frameMax") ) ,
   hud(screen),
-  enemiesDestroyed(0)
+  god(false)
 {
-  player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
+  player.setLives(0);
+  
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
@@ -63,8 +66,12 @@ Manager::Manager() :
   SDL_Surface * const tieSurface = io.loadAndSet(Gamedata::getInstance().getXmlStr("tiefighter/file"),
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
-  sprites.push_back( new MultiSprite("wreckage") );
-  std::vector<TwoWayScaledSprite*> ties; 
+  for(int i = 0; i < Gamedata::getInstance().getXmlInt("amountOfWreckage"); i++)
+  {
+    sprites.push_back( new MultiSprite("wreckage") );
+  }
+  std::vector<TwoWayScaledSprite*> ties;
+  ties.reserve(Gamedata::getInstance().getXmlInt("numberOfShips")); 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
     ties.push_back(new TwoWayScaledSprite("tiefighter", tieSurface) );
@@ -74,6 +81,13 @@ Manager::Manager() :
   {
     sprites.push_back(ties[i]);
   }
+  sprites.push_back(new SmartSprite(Gamedata::getInstance().getXmlStr("tiefighter"),
+                Vector2f(
+                   Gamedata::getInstance().getXmlInt("tiefighter/startLoc/x"), 
+                   Gamedata::getInstance().getXmlInt("tiefighter/startLoc/y")), 
+                player.getXVelocity(), bullets,Gamedata::getInstance().getXmlInt("world/width"),
+                Gamedata::getInstance().getXmlInt("world/height"), Gamedata::getInstance().getXmlInt("view/width"),
+                Gamedata::getInstance().getXmlInt("view/height" )));
   bullets.reserve(10);
   viewport.setObjectToTrack(player.getPlaySprite());
 }
@@ -90,19 +104,23 @@ void Manager::draw() const {
   }
   
   if(hud.get_display()) {
-  	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), 0);
+  	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), player.getEnemiesDestroyed());
   }
 
   if(checkForCollisions())
   {
     player.getPlaySprite()->explode();
+    sound[1];
   }
-  checkForBulletCollisions();
-  //Drawable* sprite = NULL;
-  //if((sprite = shot()) != NULL)
-  //{
-  //  sprite->explode();
-  //}
+
+  Drawable* sprite = NULL;
+  if((sprite = shot()) != NULL)
+  {
+    if(player.getPlaySprite() != (sprite)) { player.setEnemiesDestroyed(player.getEnemiesDestroyed()+1); }
+    sprite->explode();
+    sound[5];
+    //dead++;
+  }
   
   io.printMessageAt(title, 10, 450);
   viewport.draw();
@@ -162,8 +180,8 @@ void Manager::update() {
 }
 
 void Manager::reset() {
-  enemiesDestroyed = 0;
-  player.setLives(Gamedata::getInstance().getXmlInt("playerLives"));
+  player.setEnemiesDestroyed(0);
+  player.setLives(0);
 }
 
 void Manager::play() {
@@ -178,6 +196,9 @@ void Manager::play() {
         if (keystate[SDLK_ESCAPE] || keystate[SDLK_q]) {
           done = true;
           break;
+        }
+        if(keystate[SDLK_g]) {
+          god = ~god;
         }
         if ( keystate[SDLK_s] && keystate[SDLK_w]) {
           player.stopYVelocity();
@@ -212,10 +233,12 @@ void Manager::play() {
           // if the ship is going right
           if(bullets.size() < 10) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()+20), Vector2f(200.0,0.0) ) );
+              sound[3];
             }
             else {
               bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
+              sound[3];
             }
           }
         }
@@ -247,32 +270,16 @@ bool Manager::checkForCollisions() const
   std::vector<Drawable*>::const_iterator sprite = sprites.begin();
   while( sprite != sprites.end())  
   {
-    if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { return true; }
+    if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { 
+        if(!god) player.setLives(player.getLives()+1);
+        return true;
+     }
     ++sprite;
   }
   return false;
 }
-void Manager::checkForBulletCollisions() const 
-{
-  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
-  std::vector<Sprite*>::const_iterator bullet = bullets.begin();
-  while( sprite != sprites.end())  
-  {
-    while(bullet != bullets.end() && sprite!=sprites.end()) {
-      if( sprite.collidedWith(*bullet) && (*sprite)!= player.getPlaySprite()) { 
-        delete *bullet;
-        bullet = bullets.erase(bullet);
-        sprite.explode();
-        delete *sprite;
-        sprite = sprites.erase(sprite); 
-      }
-      ++bullet;
-    }
-    ++sprite;
-    
-  }
-}
-/*Drawable* Manager::shot() const
+
+Drawable* Manager::shot() const
 { 
   std::vector<Drawable*>::const_iterator sprite = sprites.begin();
   while(sprite != sprites.end())
@@ -280,13 +287,13 @@ void Manager::checkForBulletCollisions() const
     std::vector<Sprite*>::const_iterator bullet = bullets.begin();
     while(bullet != bullets.end())
     {
-      if(sprite.collidedWith(*bullet))
+      if((*sprite)->collidedWith(*bullet))
       {
-        return *sprite;
+         return *sprite;
       }
       bullet++;
     }
     sprite++;
   }
   return NULL;
-}*/
+}

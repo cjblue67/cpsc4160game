@@ -24,8 +24,6 @@
   <height>2200</height>
 </world>
 
-<playerLives>3</playerLives>
-
 <stars>
   <file>images/stars.png</file>
   <red>193</red>
@@ -34,8 +32,6 @@
   <factor>1</factor>
   <transparency>false</transparency>
 </stars>
-
-
 
 <deathStar>
   <file>images/deathstar.png</file>
@@ -64,6 +60,10 @@
   <speedY>0</speedY>
   <frames>2</frames>
   <transparency>true</transparency>
+  <chunk>
+    <size>20</size>
+    <distance>50</distance>
+  </chunk>
 </xwing>
 
 <tiefighter>
