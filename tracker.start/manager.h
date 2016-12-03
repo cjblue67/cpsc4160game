@@ -32,6 +32,7 @@ private:
 
   std::vector<Drawable*> sprites;
   std::vector<Sprite*> bullets;
+  std::vector<bool> friends;
   int currentSprite;
 
   bool makeVideo;

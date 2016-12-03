@@ -2,26 +2,23 @@ Name: Cecilia Prentice (and Christopher West)
 Clemson Email Address: cprenti@g.clemson.edu (and cjwest@g.clemson.edu)
 Course number: 4160
 
-Project no: 5
-Project due date: 11/22/2016
+Project no: 6
+Project due date: 12/3/2016
 
-Project description: Add in collisions, projectiles, and explosions into the project
+Project description: Add in points system, god mode, sound and music, AI
 
-Extra Contribution: Added star wars theme to project, updated sprites, still hand drawn, just better
+Extra Contribution: None
 
-Problems with this project: had small difficulty with alignment of sprites, and had trouble figuring out how to get collisions to work
+Problems with this project: collisions with player sprite
 
-Our project is going to be a side scrolling shooter with a star wars theme. The player pilots an x-wing and has to shoot down tie fighters on the way to the core of the death star. High reaching aspirations for this project would be to have sprite change animation for differing speds exclusively, as well as have when you shoot a tie fighter for it to be replaced by a wreckage sprites that falls off	
+Goal: Shoot enough tiefighters in order to gain 3000 points and save the galaxy. Getting hit causes you to lose points, so watch out!
 
 Cecilia's Contributions:
-- Redrew sprites
-- Added projectiles
-- Created object pooling
-- Updated HUD
+- Points system
+- God mode
+- AI
 
 Chris' Contributions
-- Set up collisions between player and other sprites
-- Created chunking for all sprites
-- Created laser sprites
+- Music/sound
+- AI
 
-----------PLEASE LOOK AT OUR NEW SPRITES!----------

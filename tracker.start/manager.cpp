@@ -11,6 +11,8 @@
 #include "gamedata.h"
 #include "manager.h"
 #include "twoWayScaledSprite.h"
+#include <stdlib.h>     
+#include <time.h>       
 
 static std::queue<unsigned int> frameTimes;
 
@@ -46,6 +48,7 @@ Manager::Manager() :
   viewport( Viewport::getInstance() ),
   sprites(),
   bullets(),
+  friends(),
   currentSprite(0),
 
   makeVideo( false ),
@@ -61,6 +64,7 @@ Manager::Manager() :
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
+  srand (time(NULL));
   SDL_WM_SetCaption(title.c_str(), NULL);
   atexit(SDL_Quit);
   SDL_Surface * const tieSurface = io.loadAndSet(Gamedata::getInstance().getXmlStr("tiefighter/file"),
@@ -92,7 +96,7 @@ Manager::Manager() :
                 player.getXVelocity(), bullets,Gamedata::getInstance().getXmlInt("world/width"),
                 Gamedata::getInstance().getXmlInt("world/height")));
                 
-  bullets.reserve(10);
+  bullets.reserve(15);
   
   viewport.setObjectToTrack(player.getPlaySprite());
   
@@ -125,8 +129,8 @@ void Manager::draw() const {
   Drawable* sprite = NULL;
   if((sprite = shot()) != NULL)
   {
-    if(player.getPlaySprite() != (sprite)) { player.setEnemiesDestroyed(player.getEnemiesDestroyed()+1); }
-    else {if(!god) player.setLives(player.getLives()+1);}
+    if(player.getPlaySprite() != (sprite)) { player.setEnemiesDestroyed(player.getEnemiesDestroyed()+3); }
+    else {if(!god) player.setLives(player.getLives()+1); }
     sprite->explode();
     sound[5];
   }
@@ -167,12 +171,25 @@ void Manager::update() {
   
   for (unsigned int i = 0; i < sprites.size(); ++i) {
     sprites[i]->update(ticks);
+    if(i!=0 && rand()%300==0) {
+      if(sprites[i]->velocityX() >= 0) {
+      	bullets.push_back( new Sprite(string("laser"), Vector2f(sprites[i]->X()+100, sprites[i]->Y()+20), Vector2f(250.0,0.0) ) );
+      	friends.push_back(false);
+      }
+      else {
+        bullets.push_back( new Sprite(string("laser"), Vector2f(sprites[i]->X()+100, sprites[i]->Y()+20), Vector2f(-250.0,0.0) ) );
+        friends.push_back(false);
+      }
+      sound[3];
+    }
   }
+  
   for (unsigned int i = 0; i < bullets.size(); ++i) {
     bool deleteBullet = bullets[i]->updateRemovable(ticks);
     if(deleteBullet) {
       delete bullets[i];
       bullets.erase(bullets.begin() + i);
+      friends.erase(friends.begin() + i);
     }
   }
   if ( makeVideo && frameCount < frameMax ) {
@@ -240,14 +257,16 @@ void Manager::play() {
         if( keystate[SDLK_SPACE] ) {
           // only allow 10 bullets out at once
           // if the ship is going right
-          if(bullets.size() < 10) { 
+          if(bullets.size() < 15) { 
             if(player.getPlaySprite()->velocityX() >= 0) {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()+20), Vector2f(200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()+20), Vector2f(300.0,0.0) ) );
               sound[3];
+              friends.push_back(true);
             }
             else {
-              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-200.0,0.0) ) );
+              bullets.push_back( new Sprite(string("laser"), Vector2f(player.getPlaySprite()->X()+100, player.getPlaySprite()->Y()-5), Vector2f(-300.0,0.0) ) );
               sound[3];
+              friends.push_back(true);
             }
           }
         }
@@ -296,14 +315,19 @@ Drawable* Manager::shot() const
   std::vector<Drawable*>::const_iterator sprite = sprites.begin();
   while(sprite != sprites.end())
   {
+    unsigned int i = 0;
     std::vector<Sprite*>::const_iterator bullet = bullets.begin();
     while(bullet != bullets.end())
     {
-      if((*sprite)->collidedWith(*bullet))
+      if((*sprite)->collidedWith(*bullet) && player.getPlaySprite() != (*sprite) && friends[i] == true)
       {
          return *sprite;
       }
+      else if(player.collidedWith(*bullet) && player.getPlaySprite() == (*sprite) && friends[i] == false){
+         return *sprite;
+      }
       bullet++;
+      i++;
     }
     sprite++;
   }
