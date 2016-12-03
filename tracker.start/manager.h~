@@ -7,6 +7,7 @@
 #include "viewport.h"
 #include "player.h"
 #include "hud.h"
+#include "sound.h"
 #include "sprite.h"
 
 class Manager {
@@ -21,6 +22,7 @@ private:
   const IOManager& io;
   Clock& clock;
   Player& player;
+  SDLSound& sound;
 
   SDL_Surface * const screen;
   World stars;
@@ -44,12 +46,12 @@ private:
   void update();
 
   bool checkForCollisions() const;
-  void checkForBulletCollisions() const;
-  Drawable* shot() const;
+  Drawable* shot();
 
   Manager(const Manager&);
   Manager& operator=(const Manager&);
   void makeFrame();
-  int enemiesDestroyed;
+  bool god;
   void reset();
 };
+  

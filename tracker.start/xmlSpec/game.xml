@@ -79,6 +79,10 @@
   <frames>2</frames>
   <frameInterval>20</frameInterval>
   <transparency>true</transparency>
+  <chunk>
+    <size>20</size>
+    <distance>50</distance>
+  </chunk>
 </tiefighter>
 
 <wreckage>

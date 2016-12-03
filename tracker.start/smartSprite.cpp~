@@ -7,10 +7,10 @@
 
 SmartSprite::SmartSprite(const std::string& name, 
              const Vector2f& pos, const float v, const std::vector<Sprite*> b, 
-             int wW, int wH, int fW, int fH ):
+             int wW, int wH):
   Drawable(name, pos,
-    Vector2f(Gamedata::getInstance().getXmlInt(name+"speedX"),
-             Gamedata::getInstance().getXmlInt(name+"speedY"))
+    Vector2f(Gamedata::getInstance().getXmlInt(name+"/speedX"),
+             Gamedata::getInstance().getXmlInt(name+"/speedY"))
   ),
   frame(FrameFactory::getInstance().getFrame(name) ),
   io(IOManager::getInstance()),
@@ -20,23 +20,28 @@ SmartSprite::SmartSprite(const std::string& name,
   strategies(),
   worldWidth(wW),
   worldHeight(wH),
-  frameWidth(fW),
-  frameHeight(fH),
-  explosion(NULL)
+  frames( FrameFactory::getInstance().getFrames(name) ),
+  frameWidth(frames[0]->getWidth()),
+  frameHeight(frames[0]->getHeight()),
+  explosion(NULL), 
+  currentFrame(0),
+  numberOfFrames( Gamedata::getInstance().getXmlInt(name+"/frames") ),
+  frameInterval( Gamedata::getInstance().getXmlInt(name+"/frameInterval") ),
+  timeSinceLastFrame( 0 )
 {
   strategies.push_back(new RectangularCollisionStrategy);
   strategies.push_back(new PerPixelCollisionStrategy); 
 }
 
 void SmartSprite::draw() const { 
-  if(explosion)
+    if(explosion)
   {
     explosion->draw();
     return;
-  }
+  } 
   Uint32 x = static_cast<Uint32>(X());
   Uint32 y = static_cast<Uint32>(Y());
-  frame->draw(x, y); 
+  frames[currentFrame]->draw(x, y);
 }
 /*
 void SmartSprite::update(Uint32 ticks) { 
@@ -129,6 +134,10 @@ void SmartSprite::update(Uint32 ticks)
   {
     currentMode = NORMAL;
   }
+  
+  Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
+  setPosition(getPosition() + incr);
+  
   velocityX(enemyVelocityX);
   if( Y() < 0) {
     velocityY( abs(velocityY() ) );

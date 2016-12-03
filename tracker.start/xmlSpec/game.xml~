@@ -60,6 +60,10 @@
   <speedY>0</speedY>
   <frames>2</frames>
   <transparency>true</transparency>
+  <chunk>
+    <size>20</size>
+    <distance>50</distance>
+  </chunk>
 </xwing>
 
 <tiefighter>

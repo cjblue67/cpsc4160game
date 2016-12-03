@@ -33,7 +33,6 @@ private:
   std::vector<CollisionStrategy*> strategies;
   int worldWidth;
   int worldHeight;
-  const std::vector<Frame *> frames;
   int frameWidth;
   int frameHeight;
   ExplodingSprite *explosion;

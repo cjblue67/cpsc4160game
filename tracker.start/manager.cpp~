@@ -66,10 +66,12 @@ Manager::Manager() :
   SDL_Surface * const tieSurface = io.loadAndSet(Gamedata::getInstance().getXmlStr("tiefighter/file"),
                 Gamedata::getInstance().getXmlBool("tiefighter/transparency"));
   sprites.push_back( player.getPlaySprite() );
+  
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("amountOfWreckage"); i++)
   {
     sprites.push_back( new MultiSprite("wreckage") );
   }
+  
   std::vector<TwoWayScaledSprite*> ties;
   ties.reserve(Gamedata::getInstance().getXmlInt("numberOfShips")); 
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
@@ -77,28 +79,36 @@ Manager::Manager() :
     ties.push_back(new TwoWayScaledSprite("tiefighter", tieSurface) );
   }
   sort(ties.begin(), ties.end(), ScaledSpriteCompare());
+  
   for(int i = 0; i < Gamedata::getInstance().getXmlInt("numberOfShips"); i++)
   {
     sprites.push_back(ties[i]);
   }
-  sprites.push_back(new SmartSprite(Gamedata::getInstance().getXmlStr("tiefighter"),
+  
+  sprites.push_back(new SmartSprite("tiefighter",
                 Vector2f(
                    Gamedata::getInstance().getXmlInt("tiefighter/startLoc/x"), 
                    Gamedata::getInstance().getXmlInt("tiefighter/startLoc/y")), 
                 player.getXVelocity(), bullets,Gamedata::getInstance().getXmlInt("world/width"),
                 Gamedata::getInstance().getXmlInt("world/height"), Gamedata::getInstance().getXmlInt("view/width"),
                 Gamedata::getInstance().getXmlInt("view/height" )));
+                
   bullets.reserve(10);
+  
   viewport.setObjectToTrack(player.getPlaySprite());
+  
+  
 }
 
 void Manager::draw() const {
   stars.draw();
   //planets.draw();
   deathStar.draw();
+  
   for (unsigned i = 0; i < sprites.size(); ++i) {
     sprites[i]->draw();
   }
+  
   for (unsigned i = 0; i < bullets.size(); ++i) {
     bullets[i]->draw();
   }
@@ -106,20 +116,20 @@ void Manager::draw() const {
   if(hud.get_display()) {
   	hud.draw(clock.getSeconds(), clock.getAverageFPS(), player.getLives(), player.getEnemiesDestroyed());
   }
-
+  
   if(checkForCollisions())
   {
     player.getPlaySprite()->explode();
     sound[1];
   }
-
+  
   Drawable* sprite = NULL;
   if((sprite = shot()) != NULL)
   {
     if(player.getPlaySprite() != (sprite)) { player.setEnemiesDestroyed(player.getEnemiesDestroyed()+1); }
+    else {if(!god) player.setLives(player.getLives()+1);}
     sprite->explode();
     sound[5];
-    //dead++;
   }
   
   io.printMessageAt(title, 10, 450);
@@ -260,14 +270,17 @@ void Manager::play() {
 
       }
     }
+    
     draw();
+    
     update();
+   
   }
 }
 
 bool Manager::checkForCollisions() const 
 {
-  std::vector<Drawable*>::const_iterator sprite = sprites.begin();
+  /*std::vector<Drawable*>::const_iterator sprite = sprites.begin();
   while( sprite != sprites.end())  
   {
     if( player.collidedWith(*sprite) && player.getPlaySprite() != (*sprite)) { 
@@ -275,7 +288,7 @@ bool Manager::checkForCollisions() const
         return true;
      }
     ++sprite;
-  }
+  }*/
   return false;
 }
 
